@@ -11,7 +11,7 @@ class StudioApp {
   constructor() {
     this.highestZIndex = 200;
     this.activeWindows = new Set();
-    this.audioEnabled = false;
+    this.audioEnabled = true;
     this.audioCtx = null;
 
     this.init();
