@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "heic-convert": "^2.1.0",
     "sharp": "^0.35.4",
     "vite": "^8.2.2"
   }

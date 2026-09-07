@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Raw uncompressed source assets (large media > 100MB; web-ready assets are in public/assets_opt)
+public/assets/*/

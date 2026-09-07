@@ -353,7 +353,7 @@ html, body {
    STATE 1: DESKTOP ICON (COLLAPSED - WINDOWS DESKTOP ICON ARCHITECTURE)
    ============================================================================= */
 .desktop-item:not(.is-expanded) {
-  width: 140px;
+  width: 215px;
   height: auto;
   background-color: transparent !important;
   border: none !important;
@@ -369,7 +369,7 @@ html, body {
 .desktop-item:not(.is-expanded):hover {
   border-color: transparent !important;
   box-shadow: none !important;
-  transform: translateY(-3px);
+  transform: translateY(-4px);
 }
 
 .desktop-item:not(.is-expanded).is-dragging {
@@ -391,26 +391,27 @@ html, body {
   opacity: 0;
 }
 
-/* Small Window Tile (Icon Frame) */
+/* Small Window Tile (Icon Frame - Enlarged by User Request) */
 .icon-window-tile {
-  width: 130px;
-  background-color: #0c0c0c;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.88);
-  padding: 6px 7px 7px;
+  width: 205px;
+  background-color: #0d0d0d;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.92);
+  padding: 8px 9px 9px;
   box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
   position: relative;
+  border-radius: 4px;
 }
 
 .desktop-item:not(.is-expanded):hover .icon-window-tile {
-  border-color: rgba(255, 255, 255, 0.45);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.98);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.98), 0 0 12px rgba(255, 255, 255, 0.08);
 }
 
 .desktop-item:not(.is-expanded).is-dragging .icon-window-tile {
   border-color: #EDEDED;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 1);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 1);
 }
 
 /* Top bar of the small window tile */
@@ -419,33 +420,35 @@ html, body {
   justify-content: space-between;
   align-items: center;
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 10.5px;
   letter-spacing: 0.1em;
-  padding-bottom: 3px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .icon-tag-id {
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .icon-drag-dots {
   color: var(--text-muted);
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   cursor: grab;
-  font-size: 11px;
+  font-size: 13px;
 }
 
-/* Thumbnail preview inside the small window tile */
+/* Thumbnail preview inside the small window tile (To gấp đôi để thấy rõ chi tiết) */
 .icon-preview-box {
   position: relative;
   width: 100%;
-  height: 68px;
+  height: 120px;
   overflow: hidden;
   background-color: #000000;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  margin-top: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin-top: 6px;
+  border-radius: 2px;
 }
 
 .icon-img-thumb {
@@ -453,13 +456,13 @@ html, body {
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: contrast(1.08) brightness(0.9);
-  transition: transform 0.25s ease, filter 0.25s ease;
+  filter: contrast(1.08) brightness(0.92);
+  transition: transform 0.28s ease, filter 0.28s ease;
 }
 
 .desktop-item:not(.is-expanded):hover .icon-img-thumb {
   transform: scale(1.06);
-  filter: contrast(1.15) brightness(1.02);
+  filter: contrast(1.15) brightness(1.05);
 }
 
 .icon-crosshair {
@@ -468,23 +471,25 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.45);
   pointer-events: none;
 }
 
 .icon-format-pill {
   position: absolute;
-  bottom: 3px;
-  right: 3px;
-  background-color: rgba(0, 0, 0, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  bottom: 4px;
+  right: 4px;
+  background-color: rgba(0, 0, 0, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: var(--text-secondary);
   font-family: var(--font-mono);
-  font-size: 7.5px;
+  font-size: 8px;
+  font-weight: 600;
   letter-spacing: 0.08em;
-  padding: 1px 4px;
+  padding: 2px 5px;
   line-height: 1;
+  border-radius: 2px;
 }
 
 /* External Label placed UNDERNEATH the small window tile (Windows Desktop Icon Style) */
@@ -492,25 +497,25 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 6px;
+  margin-top: 8px;
   width: 100%;
-  max-width: 145px;
+  max-width: 215px;
   pointer-events: none;
 }
 
 .desktop-icon-external-title {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   color: #EDEDED;
   text-align: center;
-  background-color: rgba(10, 10, 10, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(4px);
-  padding: 3px 8px;
-  border-radius: 2px;
-  line-height: 1.25;
+  background-color: rgba(10, 10, 10, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(6px);
+  padding: 5px 12px;
+  border-radius: 3px;
+  line-height: 1.3;
   word-break: break-word;
   white-space: normal;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
@@ -519,24 +524,24 @@ html, body {
 
 .desktop-item:not(.is-expanded):hover .desktop-icon-external-title {
   color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.45);
-  background-color: rgba(25, 25, 25, 0.94);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.75);
+  border-color: rgba(255, 255, 255, 0.55);
+  background-color: rgba(24, 24, 24, 0.96);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
 }
 
 .desktop-item:not(.is-expanded).is-focused .desktop-icon-external-title {
-  border-color: rgba(255, 255, 255, 0.65);
-  background-color: rgba(38, 38, 38, 0.96);
+  border-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(36, 36, 36, 0.98);
 }
 
 /* =============================================================================
    STATE 2: EXPANDED POPUP WINDOW (STANDARDIZED 720PX LIKE TAG 04)
    ============================================================================= */
 .desktop-item.is-expanded {
-  width: 720px;
-  max-width: 92vw;
-  height: 560px;
-  max-height: calc(100vh - 120px);
+  width: 880px;
+  max-width: 95vw;
+  height: 720px;
+  max-height: calc(100vh - 90px);
   min-height: 0;
   cursor: default;
   background-color: var(--bg-window);
@@ -1948,3 +1953,403 @@ html, body {
     display: none;
   }
 }
+
+/* =============================================================================
+   11 PROJECT POP-UPS: 4-COLUMN RESPONSIVE LAYOUT & UNCROPPED FULL-SIZE PREVIEWS
+   ============================================================================= */
+
+/* Intro Text Block at the beginning of Pop-up */
+.popup-intro-block {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid var(--accent-rec);
+  padding: 16px 20px;
+  margin-bottom: 22px;
+  border-radius: 3px;
+}
+
+.popup-intro-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--accent-rec);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.popup-intro-text {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #E2E2E2;
+  white-space: pre-line;
+  letter-spacing: 0.01em;
+}
+
+/* Section label */
+.popup-section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin: 22px 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-transform: uppercase;
+}
+
+.popup-section-label .dot-rec {
+  color: var(--accent-rec);
+  font-size: 9px;
+}
+
+/* 4-COLUMN MASTER GRID (User requirement: các phần giới thiệu to chiếm 4 ô, cut scene 1 ô, ảnh 2 ô, v.v.) */
+.popup-4col-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+  align-items: start;
+}
+
+/* Column spans */
+.col-span-4 {
+  grid-column: span 4 !important;
+  width: 100% !important;
+}
+
+.col-span-2 {
+  grid-column: span 2 !important;
+}
+
+.col-span-1 {
+  grid-column: span 1 !important;
+}
+
+/* UNCROPPED GRID ITEM (User requirement: giữ ảnh đầy đủ size và hiện đầy đủ trong preview) */
+.popup-grid-item {
+  position: relative;
+  background-color: #080808;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-grid-item:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+}
+
+/* KHÔNG CẮT XÉN ẢNH: width 100%, height auto, hiển thị trọn vẹn 100% pixel gốc */
+.popup-grid-item img,
+.popup-grid-item picture,
+.popup-grid-item .loop-media-el {
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s var(--ease-snappy);
+}
+
+.popup-grid-item:hover img,
+.popup-grid-item:hover .loop-media-el {
+  transform: scale(1.02);
+}
+
+/* Hero 4-Column Banner (cho hình giới thiệu, storyboard, gif loop to) */
+.hero-4col-item {
+  grid-column: span 4;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #000;
+  margin-bottom: 8px;
+}
+
+.hero-4col-item img,
+.hero-4col-item .loop-media-el {
+  width: 100%;
+  height: auto;
+  max-height: 700px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Item Badge Pills */
+.item-badge-pill {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.88);
+  border: 1px solid rgba(85, 255, 85, 0.4);
+  color: #55ff55;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* Hover Zoom Overlay */
+.item-zoom-hover {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 3;
+}
+
+.item-zoom-hover span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 5px 12px;
+  border-radius: 3px;
+}
+
+.popup-grid-item:hover .item-zoom-hover {
+  opacity: 1;
+}
+
+/* RESPONSIVE YOUTUBE / HTML5 VIDEO 16:9 CONTAINER */
+.responsive-video-16-9 {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+  background: #000;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.responsive-video-16-9 iframe,
+.responsive-video-16-9 video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Video feature container */
+.popup-video-feature {
+  margin-bottom: 20px;
+}
+
+.cutscene-video-box {
+  background: #000;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cutscene-video-box video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* PANORAMA STYLES FOR GẠCH ĐÔNG DƯƠNG */
+/* 1. Ghép 2 ảnh pic6 và pic7 liền kề theo chiều ngang tạo ảnh dài */
+.panorama-strip-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 16px 0;
+  background: #000;
+}
+
+.panorama-strip-horizontal .panorama-half {
+  flex: 1;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.panorama-strip-horizontal img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.panorama-strip-horizontal:hover img {
+  transform: scale(1.015);
+}
+
+/* 2. Ghép 2 ảnh pic5 và pic8 trên dưới theo chiều dọc tạo ảnh dài ở cuối popup */
+.panorama-stack-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  width: 100%;
+  max-width: 580px;
+  margin: 20px auto 10px auto;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+}
+
+.panorama-stack-vertical .vertical-half {
+  width: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.panorama-stack-vertical img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.panorama-stack-vertical:hover img {
+  transform: scale(1.015);
+}
+
+/* LIGHTBOX MODAL (FULL RESOLUTION VIEWER) */
+.media-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s var(--ease-snappy);
+}
+
+.media-lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-content-box {
+  position: relative;
+  max-width: 92vw;
+  max-height: 88vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-img-el {
+  max-width: 100%;
+  max-height: 88vh;
+  object-fit: contain;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95);
+  border-radius: 4px;
+}
+
+.lightbox-close-btn {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #EDEDED;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 6px 14px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.lightbox-close-btn:hover {
+  background: var(--accent-rec);
+  border-color: var(--accent-rec);
+  color: #fff;
+}
+
+/* FOOTER CONTACT CHANNELS (User requirement: các contact chanel cho to hơn xíu nữa) */
+.footer-platform-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.platform-strip-label {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.platform-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #EDEDED;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.platform-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.platform-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+  .popup-4col-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .col-span-4, .col-span-2, .col-span-1 {
+    grid-column: span 2 !important;
+  }
+}
+

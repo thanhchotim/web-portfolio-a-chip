@@ -1,7 +1,7 @@
 /**
  * =============================================================================
  * ALEXANDER VO — EDITORIAL STUDIO CONTROLLER
- * Architecture: SMPTE Engine • Draggable Viewports • Split Slider • Audio FX
+ * Architecture: 11 Project Pop-ups • Custom 4-Column Layouts • Uncropped Media
  * =============================================================================
  */
 
@@ -9,126 +9,623 @@ import { siteConfig, projects } from './data/projects.js';
 
 class StudioApp {
   constructor() {
-    this.audioEnabled = false;
-    this.audioCtx = null;
     this.highestZIndex = 200;
-    this.activeWindows = new Set(['window-tag-01', 'window-tag-02', 'window-tag-03', 'window-tag-04']);
-    this.smpteFrames = 0;
-    this.smpteSeconds = 14;
-    this.smpteMinutes = 23;
-    this.smpteHours = 1;
+    this.activeWindows = new Set();
 
     this.init();
   }
 
   init() {
-    this.initAudio();
-    this.initTimecodeEngine();
+    this.renderDesktopItems();
     this.initSystemClock();
     this.initDraggables();
-    this.initColorGradingSlider();
-    this.initVideoPlayers();
-    this.initViewSwitcher();
-    this.initDrawers();
+    this.initLightbox();
     this.initFooterPlatformLinks();
-    this.initIndexArchive();
-    this.updateActiveWindowsBadge();
+    this.initContactDrawer();
+    this.initWindowResizeListener();
   }
 
   /* ---------------------------------------------------------------------------
-     01. AUDIO SYNTHESIS ENGINE (TACTILE MECHANICAL CLICK)
+     TÍNH TOÁN BỐ CỤC TRẢI ĐỀU 4 CỘT TRÊN CANVAS (KHÔNG ĐỂ TRỐNG BÊN PHẢI)
      --------------------------------------------------------------------------- */
-  initAudio() {
-    const audioBtn = document.getElementById('btn-audio-toggle');
-    const audioText = document.getElementById('audio-state-text');
+  computeResponsivePositions() {
+    const stage = document.getElementById('canvas-stage');
+    const stageWidth = stage ? stage.clientWidth : window.innerWidth;
+    const stageHeight = stage ? stage.clientHeight : window.innerHeight;
 
-    audioBtn?.addEventListener('click', () => {
-      this.audioEnabled = !this.audioEnabled;
-      if (this.audioEnabled) {
-        if (!this.audioCtx) {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          this.audioCtx = new AudioContext();
-        }
-        if (this.audioCtx.state === 'suspended') {
-          this.audioCtx.resume();
-        }
-        audioBtn.classList.add('is-on');
-        if (audioText) audioText.textContent = 'SFX: ON';
-        this.playTactileSound('high');
-        this.showToast('TACTICAL SFX: ACTIVATED');
-      } else {
-        audioBtn.classList.remove('is-on');
-        if (audioText) audioText.textContent = 'SFX: OFF';
-        this.showToast('TACTICAL SFX: MUTED');
-      }
-    });
-  }
-
-  playTactileSound(tone = 'normal') {
-    if (!this.audioEnabled || !this.audioCtx) return;
-    try {
-      const now = this.audioCtx.currentTime;
-      const osc = this.audioCtx.createOscillator();
-      const gain = this.audioCtx.createGain();
-
-      const freq = tone === 'high' ? 980 : tone === 'low' ? 320 : 540;
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now);
-      osc.frequency.exponentialRampToValueAtTime(80, now + 0.04);
-
-      gain.gain.setValueAtTime(0.12, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-
-      osc.connect(gain);
-      gain.connect(this.audioCtx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.045);
-    } catch {
-      // Audio context policy fallback
+    let numCols = 4;
+    if (stageWidth >= 1200) {
+      numCols = 4;
+    } else if (stageWidth >= 880) {
+      numCols = 3;
+    } else if (stageWidth >= 580) {
+      numCols = 2;
+    } else {
+      numCols = 1;
     }
+
+    const itemWidth = 215; // Chiều rộng tag desktop
+    const itemHeight = 195; // Chiều cao ước tính tag desktop
+
+    // Tính toán khoảng cách cột sao cho dàn trải đều từ trái sang phải màn hình
+    const totalItemWidth = numCols * itemWidth;
+    let colGap = 40;
+    let sideMargin = 50;
+
+    if (stageWidth > totalItemWidth + 60) {
+      sideMargin = Math.max(30, Math.min(90, Math.floor((stageWidth - totalItemWidth) / (numCols + 1))));
+      const remainingWidth = stageWidth - totalItemWidth - (sideMargin * 2);
+      colGap = Math.floor(remainingWidth / Math.max(1, numCols - 1));
+    }
+
+    const topMargin = 25;
+    const numRows = Math.ceil(projects.length / numCols);
+    const availHeight = stageHeight - topMargin - 30;
+    const rowGap = Math.max(15, Math.min(36, Math.floor((availHeight - (numRows * itemHeight)) / Math.max(1, numRows - 1))));
+
+    const positions = {};
+    projects.forEach((p, idx) => {
+      const col = idx % numCols;
+      const row = Math.floor(idx / numCols);
+      const x = Math.round(sideMargin + col * (itemWidth + colGap));
+      const y = Math.round(topMargin + row * (itemHeight + rowGap));
+      positions[p.id] = { x, y };
+    });
+    return positions;
   }
 
   /* ---------------------------------------------------------------------------
-     02. SMPTE 24FPS TIMECODE & LOCAL SYSTEM CLOCK
+     00. DYNAMIC DESKTOP ITEMS RENDERER (11 DỰ ÁN VỚI BỐ CỤC CHUYÊN BIỆT)
      --------------------------------------------------------------------------- */
-  initTimecodeEngine() {
-    const globalSmpteEl = document.getElementById('global-smpte-clock');
-    const tc1 = document.querySelector('.tc-live-01');
-    const tc2 = document.querySelector('.tc-live-02');
-    const tc3 = document.querySelector('.tc-live-03');
-    const tc4 = document.querySelector('.tc-live-04');
+  renderDesktopItems() {
+    const container = document.getElementById('desktop-canvas-layer');
+    if (!container) return;
 
-    // 24 frames per second clock ticker
-    setInterval(() => {
-      this.smpteFrames++;
-      if (this.smpteFrames >= 24) {
-        this.smpteFrames = 0;
-        this.smpteSeconds++;
-        if (this.smpteSeconds >= 60) {
-          this.smpteSeconds = 0;
-          this.smpteMinutes++;
-          if (this.smpteMinutes >= 60) {
-            this.smpteMinutes = 0;
-            this.smpteHours = (this.smpteHours + 1) % 24;
-          }
-        }
-      }
+    const responsivePositions = this.computeResponsivePositions();
 
-      const f = String(this.smpteFrames).padStart(2, '0');
-      const s = String(this.smpteSeconds).padStart(2, '0');
-      const m = String(this.smpteMinutes).padStart(2, '0');
-      const h = String(this.smpteHours).padStart(2, '0');
-      const timecodeStr = `${h}:${m}:${s}:${f}`;
+    container.innerHTML = projects.map(p => {
+      const num = p.id.replace('tag-', '');
+      const contentHtml = this.buildProjectContent(p);
+      const pos = responsivePositions[p.id] || p.initialPosition;
 
-      if (globalSmpteEl) globalSmpteEl.textContent = timecodeStr;
-      if (tc1) tc1.textContent = `01:${m}:${s}:${f}`;
-      if (tc2) tc2.textContent = `00:${String((this.smpteMinutes + 12) % 60).padStart(2, '0')}:${s}:${f}`;
-      if (tc3) tc3.textContent = `03:${String((this.smpteMinutes + 25) % 60).padStart(2, '0')}:${s}:${f}`;
-      if (tc4) tc4.textContent = `04:${String((this.smpteMinutes + 40) % 60).padStart(2, '0')}:${s}:${f}`;
-    }, 1000 / 24);
+      return `
+        <article class="desktop-item" id="desktop-item-${num}" data-project-id="${p.id}" style="top: ${pos.y}px; left: ${pos.x}px;">
+          <!-- ICON FACE (COLLAPSED DESKTOP ICON) -->
+          <div class="item-icon-face" title="Nhấp để mở pop-up [${p.folderName}]">
+            <div class="icon-window-tile">
+              <div class="icon-top-bar">
+                <span class="icon-tag-id">[${p.tagNumber}]</span>
+                <span class="icon-drag-dots" title="Kéo thả icon">:::</span>
+              </div>
+              <div class="icon-preview-box">
+                <img src="${p.thumbnail}" alt="${p.folderName}" class="icon-img-thumb" draggable="false" loading="lazy" />
+                <div class="icon-crosshair">+</div>
+                <span class="icon-format-pill">${p.gifs.length > 0 ? 'LOOP & STILLS' : 'STILLS'}</span>
+              </div>
+            </div>
+            <div class="desktop-icon-external-label">
+              <span class="desktop-icon-external-title">${p.folderName}</span>
+            </div>
+          </div>
+
+          <!-- WINDOW FACE (EXPANDED POPUP) -->
+          <div class="item-window-face">
+            <div class="window-chrome" title="Kéo để di chuyển cửa sổ">
+              <div class="chrome-left">
+                <span class="chrome-tag">[POP-UP // ${p.folderName}]</span>
+              </div>
+              <div class="chrome-controls">
+                <button class="win-btn win-btn-minimize" type="button" title="Thu nhỏ về icon" aria-label="Minimize">_</button>
+                <button class="win-btn win-btn-maximize" type="button" title="Phóng to toàn màn hình" aria-label="Maximize">□</button>
+                <button class="win-btn win-btn-close" type="button" title="Đóng cửa sổ" aria-label="Close">[X]</button>
+              </div>
+            </div>
+
+            <div class="window-content">
+              ${contentHtml}
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('\n');
   }
 
+  /* ---------------------------------------------------------------------------
+     BUILD CONTENT CHO TỪNG DỰ ÁN (TIÊU ĐỀ MỤC & BADGE CHUẨN, KHÔNG NOTE NGOẶC ĐƠN)
+     --------------------------------------------------------------------------- */
+  buildProjectContent(p) {
+    const folder = p.folderName;
+
+    // Helper tạo intro text box nếu dự án có file text
+    const makeIntroBox = (text) => text ? `
+      <div class="popup-intro-block col-span-4">
+        <div class="popup-intro-badge">[THÔNG TIN DỰ ÁN // ${folder}]</div>
+        <p class="popup-intro-text">${text}</p>
+      </div>
+    ` : '';
+
+    // Helper tạo grid item ảnh uncropped (không bị xén kích thước, có fallback)
+    const makeImageItem = (img, spanClass = 'col-span-2') => `
+      <div class="popup-grid-item ${spanClass}" data-full-src="${img.src}" title="Nhấp để xem ảnh đầy đủ">
+        <img src="${img.src}" alt="${img.name}" loading="lazy" decoding="async" onerror="if(this.src!=='${img.originalSrc}')this.src='${img.originalSrc}';" />
+        <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+      </div>
+    `;
+
+    // Helper tạo grid item GIF uncropped kèm badge pill
+    const makeGifItem = (gif, spanClass = 'col-span-2') => `
+      <div class="popup-grid-item ${spanClass} gif-item" data-full-src="${gif.webpSrc}" title="Nhấp để phóng to loop">
+        <picture>
+          <source srcset="${gif.webpSrc}" type="image/webp" />
+          <img src="${gif.gifSrc}" alt="${gif.name}" class="loop-media-el" loading="lazy" decoding="async" />
+        </picture>
+        <span class="item-badge-pill">● LOOP</span>
+        <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+      </div>
+    `;
+
+    // -------------------------------------------------------------------------
+    // 1. YEON
+    // -------------------------------------------------------------------------
+    if (folder === 'yeon') {
+      const introImg = p.images.find(i => i.name.includes('giới thiệu'));
+      const storyboardImg = p.images.find(i => i.name.includes('storyboard'));
+      const loopGif = p.gifs.find(g => g.name.includes('cut scenes')) || p.gifs[0];
+      const otherImages = p.images.filter(i => !i.name.includes('giới thiệu') && !i.name.includes('storyboard') && !i.name.includes('thumb'));
+
+      return `
+        <div class="popup-4col-grid">
+          <!-- Nhúng MV chính thức lên đầu chiếm 4 ô -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> OFFICIAL MUSIC VIDEO [YEON 연 - VCC LEFT HAND ft. HAZEL]</div>
+            <div class="responsive-video-16-9">
+              <iframe src="https://www.youtube.com/embed/brOVkbMMoDY" title="Yeon 연 - VCC LEFT HAND ft. HAZEL (Official Music Video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <!-- Set designer giới thiệu chiếm 4 ô -->
+          ${introImg ? `
+            <div class="hero-4col-item popup-grid-item col-span-4" data-full-src="${introImg.src}">
+              <img src="${introImg.src}" alt="${introImg.name}" loading="lazy" />
+              <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+            </div>
+          ` : ''}
+
+          <!-- Storyboard to ra 4 ô và để ngay dưới phần giới thiệu -->
+          ${storyboardImg ? `
+            <div class="hero-4col-item popup-grid-item col-span-4" data-full-src="${storyboardImg.src}">
+              <img src="${storyboardImg.src}" alt="${storyboardImg.name}" loading="lazy" />
+              <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+            </div>
+          ` : ''}
+
+          <!-- GIF loop to lên chiếm 4 ô -->
+          ${loopGif ? `
+            <div class="hero-4col-item popup-grid-item col-span-4 gif-item" data-full-src="${loopGif.webpSrc}">
+              <picture>
+                <source srcset="${loopGif.webpSrc}" type="image/webp" />
+                <img src="${loopGif.gifSrc}" alt="${loopGif.name}" class="loop-media-el" loading="lazy" />
+              </picture>
+              <span class="item-badge-pill">● EXCLUSIVE LOOP SCENE</span>
+              <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+            </div>
+          ` : ''}
+
+          <!-- Stills uncropped (hiển thị đầy đủ kích thước, không bị xén) -->
+          <div class="col-span-4 popup-section-label">PRODUCTION STILLS & FRAMES</div>
+          ${otherImages.map(img => makeImageItem(img, 'col-span-2')).join('')}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 2. TME (Trong Mắt Em)
+    // -------------------------------------------------------------------------
+    if (folder === 'TME') {
+      const cutSceneGif = p.gifs.find(g => g.name.toLowerCase().includes('cut scene'));
+      const btsGif = p.gifs.find(g => g.name.toLowerCase().includes('bts'));
+      const stills = p.images.filter(i => !i.name.includes('thumb'));
+
+      return `
+        <div class="popup-4col-grid">
+          ${makeIntroBox(p.introText)}
+
+          <!-- Nhúng MV chính thức chiếm 4 ô -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> OFFICIAL MUSIC VIDEO [TRONG MẮT EM / cùng iMAZE]</div>
+            <div class="responsive-video-16-9">
+              <iframe src="https://www.youtube.com/embed/38A3A6PbBa8" title="TRONG MẮT EM / cùng iMAZE (thước phim âm nhạc do Vinh Thoòng đạo diễn)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <!-- GIF loop cut scene để lên phía dưới MV chính thức và trên phần ảnh -->
+          ${cutSceneGif ? `
+            <div class="hero-4col-item popup-grid-item col-span-4 gif-item" data-full-src="${cutSceneGif.webpSrc}">
+              <picture>
+                <source srcset="${cutSceneGif.webpSrc}" type="image/webp" />
+                <img src="${cutSceneGif.gifSrc}" alt="${cutSceneGif.name}" class="loop-media-el" loading="lazy" />
+              </picture>
+              <span class="item-badge-pill">● CUT SCENE LOOP</span>
+              <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+            </div>
+          ` : ''}
+
+          <!-- Phần hình ảnh hiển thị đầy đủ không bị xén -->
+          <div class="col-span-4 popup-section-label">PROJECT STILL FRAMES</div>
+          ${stills.map(img => makeImageItem(img, 'col-span-2')).join('')}
+
+          <!-- GIF loop BTS để ở DƯỚI CÙNG -->
+          ${btsGif ? `
+            <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> BTS ON-SET LOOP</div>
+            <div class="hero-4col-item popup-grid-item col-span-4 gif-item" data-full-src="${btsGif.webpSrc}">
+              <picture>
+                <source srcset="${btsGif.webpSrc}" type="image/webp" />
+                <img src="${btsGif.gifSrc}" alt="${btsGif.name}" class="loop-media-el" loading="lazy" />
+              </picture>
+              <span class="item-badge-pill">● BTS LOOP</span>
+              <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. BLENDER
+    // -------------------------------------------------------------------------
+    if (folder === 'BLENDER') {
+      // Loại bỏ logo.jpg sau khi mở pop up
+      const renders = p.images.filter(i => !i.name.toLowerCase().includes('logo'));
+
+      return `
+        <div class="popup-4col-grid">
+          <!-- Video Showcase chiếm 4 ô phía trên cùng -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> [01 // VIDEO SHOWCASE ROBOT & LAB]</div>
+            <div class="responsive-video-16-9">
+              <video controls playsinline loop muted autoplay preload="metadata">
+                <source src="/assets/BLENDER/showcase%20robotnlab%20vid.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          <!-- Video Animation 3D chiếm 4 ô phía trên cùng -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> [02 // 3D ANIMATION CLIP]</div>
+            <div class="responsive-video-16-9">
+              <video controls playsinline loop muted preload="metadata">
+                <source src="/assets/BLENDER/clip%20anim%203D.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          <!-- Các Cut Scene để 1 ô như bình thường (4 video cut scene xếp 1 hàng 4 ô) -->
+          <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> ANIMATION CUT SCENES</div>
+          <div class="popup-grid-item col-span-1 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/BLENDER/scene%201.webm" type="video/webm" />
+              <source src="/assets/BLENDER/scene%201" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">SCENE 1</span>
+          </div>
+          <div class="popup-grid-item col-span-1 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/BLENDER/scene%202.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">SCENE 2</span>
+          </div>
+          <div class="popup-grid-item col-span-1 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/BLENDER/scene%203.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">SCENE 3</span>
+          </div>
+          <div class="popup-grid-item col-span-1 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/BLENDER/scene%204.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">SCENE 4</span>
+          </div>
+
+          <!-- Các render 3D hiển thị đầy đủ không bị xén -->
+          <div class="col-span-4 popup-section-label">3D RENDERS & LAB VIEWS</div>
+          ${renders.map(img => makeImageItem(img, 'col-span-2')).join('')}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. THEEND
+    // -------------------------------------------------------------------------
+    if (folder === 'THEEND') {
+      const stills = p.images.filter(i => !i.name.includes('thumb'));
+
+      return `
+        <div class="popup-4col-grid">
+          ${makeIntroBox(p.introText)}
+
+          <!-- Mood film đầu tiên chiếm 4 ô -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> [01 // MOOD FILM - THEEND]</div>
+            <div class="responsive-video-16-9">
+              <video poster="/assets_opt/THEEND/thumb_400_pic6.webp" controls autoplay loop muted playsinline preload="metadata">
+                <source src="/assets/THEEND/mood%20film.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          <!-- Teaser clip chiếm 4 ô -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> [02 // TEASER / VIDEO CLIP]</div>
+            <div class="responsive-video-16-9">
+              <video controls loop muted playsinline preload="metadata">
+                <source src="/assets/THEEND/video1.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          <!-- Các hình JPG uncropped -->
+          <div class="col-span-4 popup-section-label">PROJECT STILL FRAMES</div>
+          ${stills.map(img => makeImageItem(img, 'col-span-2')).join('')}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. LONG CHÂU
+    // -------------------------------------------------------------------------
+    if (folder === 'LONG CHÂU') {
+      const stills = p.images.filter(i => !i.name.includes('thumb'));
+
+      return `
+        <div class="popup-4col-grid">
+          ${makeIntroBox(p.introText)}
+
+          <!-- 4 GIF loops lên trước -->
+          <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> ANIMATED CUT SCENES & BTS LOOPS</div>
+          ${p.gifs.map(g => makeGifItem(g, 'col-span-2')).join('')}
+
+          <!-- Video Voice Talent -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> [VOICE TALENT RECORDING]</div>
+            <div class="responsive-video-16-9">
+              <video controls playsinline loop muted preload="metadata">
+                <source src="/assets/LONG%20CH%C3%82U/Voice%20Talent.mov" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          <!-- Toàn bộ ảnh kể cả BTS 1 & BTS 2 hiển thị đầy đủ size, không bị xén preview -->
+          <div class="col-span-4 popup-section-label">CAMPAIGN STILLS & BTS PHOTOS</div>
+          ${stills.map(img => makeImageItem(img, 'col-span-2')).join('')}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. ART (mauvaart)
+    // -------------------------------------------------------------------------
+    if (folder === 'mauvaart') {
+      const introImg = p.images.find(i => i.name.includes('14'));
+      const paintings = p.images.filter(i => !i.name.includes('14') && !i.name.includes('thumb'));
+
+      return `
+        <div class="popup-4col-grid">
+          <!-- Phần giới thiệu to ra 4 ô (14.webp) -->
+          ${introImg ? `
+            <div class="hero-4col-item popup-grid-item col-span-4" data-full-src="${introImg.src}">
+              <img src="${introImg.src}" alt="${introImg.name}" loading="lazy" />
+              <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+            </div>
+          ` : ''}
+
+          <!-- Các bức tranh hội họa uncropped -->
+          <div class="col-span-4 popup-section-label">ARTWORKS & LANDSCAPES</div>
+          ${paintings.map(img => makeImageItem(img, 'col-span-2')).join('')}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. FEIN
+    // -------------------------------------------------------------------------
+    if (folder === 'FEIN') {
+      const introImg = p.images.find(i => i.name.includes('giới thiệu'));
+      const boardImg = p.images.find(i => i.name.includes('board'));
+      const stills = p.images.filter(i => !i.name.includes('giới thiệu') && !i.name.includes('board') && !i.name.includes('thumb'));
+
+      return `
+        <div class="popup-4col-grid">
+          <!-- Phần giới thiệu to ra 4 ô -->
+          ${introImg ? `
+            <div class="hero-4col-item popup-grid-item col-span-4" data-full-src="${introImg.src}">
+              <img src="${introImg.src}" alt="${introImg.name}" loading="lazy" />
+              <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+            </div>
+          ` : ''}
+
+          <!-- Phần storyboard to ra 4 ô -->
+          ${boardImg ? `
+            <div class="hero-4col-item popup-grid-item col-span-4" data-full-src="${boardImg.src}">
+              <img src="${boardImg.src}" alt="${boardImg.name}" loading="lazy" />
+              <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+            </div>
+          ` : ''}
+
+          <!-- Video MV Remake FE!N chiếm 4 ô -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> MV REMAKE [FE!N - TRAVIS SCOTT]</div>
+            <div class="responsive-video-16-9">
+              <video poster="/assets_opt/FEIN/thumb_400_travis.webp" controls loop muted autoplay playsinline preload="metadata">
+                <source src="/assets/FEIN/fein%20final.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          <!-- Các ảnh stills uncropped -->
+          <div class="col-span-4 popup-section-label">PROJECT STILLS</div>
+          ${stills.map(img => makeImageItem(img, 'col-span-2')).join('')}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 8. TH TRUE FOOD
+    // -------------------------------------------------------------------------
+    if (folder === 'TH TRUE FOOD') {
+      const stills = p.images.filter(i => !i.name.includes('thumb'));
+
+      return `
+        <div class="popup-4col-grid">
+          ${makeIntroBox(p.introText)}
+
+          <!-- Loop GIF BTS lên trước -->
+          ${p.gifs.map(g => makeGifItem(g, 'col-span-4')).join('')}
+
+          <!-- TVC video BTS 1 chiếm 4 ô -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> COMMERCIAL TVC BTS</div>
+            <div class="responsive-video-16-9">
+              <video controls playsinline loop muted preload="metadata">
+                <source src="/assets/TH%20TRUE%20FOOD/BTS%201.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          <!-- Các hình dọc đã xoay chuẩn 100%, hiện trọn vẹn preview -->
+          <div class="col-span-4 popup-section-label">ON-SET SET DESIGN STILLS</div>
+          ${stills.map(img => makeImageItem(img, 'col-span-2')).join('')}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 9. UNI PROJECT
+    // -------------------------------------------------------------------------
+    if (folder === 'uni project') {
+      const introImg = p.images.find(i => i.name.includes('12'));
+      const otherPosters = p.images.filter(i => !i.name.includes('12') && !i.name.includes('thumb'));
+
+      return `
+        <div class="popup-4col-grid">
+          <!-- Phần giới thiệu to ra 4 ô -->
+          ${introImg ? `
+            <div class="hero-4col-item popup-grid-item col-span-4" data-full-src="${introImg.src}">
+              <img src="${introImg.src}" alt="${introImg.name}" loading="lazy" />
+              <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+            </div>
+          ` : ''}
+
+          <!-- Các tấm hình đồ án giữ đầy đủ size và hiện đầy đủ không bị xén -->
+          <div class="col-span-4 popup-section-label">POSTERS & EXHIBITION SHOTS</div>
+          ${otherPosters.map(img => makeImageItem(img, 'col-span-2')).join('')}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 10. NO ALCOHOL
+    // -------------------------------------------------------------------------
+    if (folder === 'NO ALCOHOL') {
+      const stills = p.images.filter(i => !i.name.includes('thumb'));
+
+      return `
+        <div class="popup-4col-grid">
+          <div class="col-span-4">
+            ${makeIntroBox(p.introText)}
+          </div>
+
+          <!-- Các GIF loop lên trước -->
+          <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> MUSIC VIDEO CUT SCENE LOOPS</div>
+          ${p.gifs.map(g => makeGifItem(g, 'col-span-2')).join('')}
+
+          <!-- Video BTS 1 -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> ON-SET BTS VIDEO</div>
+            <div class="responsive-video-16-9">
+              <video controls playsinline loop muted preload="metadata">
+                <source src="/assets/NO%20ALCOHOL/BTS%201.mov" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          <!-- Các tấm hình BTS JPG mới hiển thị đầy đủ hình ảnh WebP/JPG -->
+          <div class="col-span-4 popup-section-label">BTS & PRODUCTION STILLS</div>
+          ${stills.map(img => makeImageItem(img, 'col-span-2')).join('')}
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // 11. GẠCH ĐÔNG DƯƠNG
+    // -------------------------------------------------------------------------
+    if (folder === 'GẠCH ĐÔNG DƯƠNG') {
+      const p1 = p.images.find(i => i.name.includes('pic 1'));
+      const p2 = p.images.find(i => i.name.includes('pic 2'));
+      const p3 = p.images.find(i => i.name.includes('pic 3'));
+      const p4 = p.images.find(i => i.name.includes('pic 4'));
+      const p5 = p.images.find(i => i.name.includes('pic 5'));
+      const p6 = p.images.find(i => i.name.includes('pic 6'));
+      const p7 = p.images.find(i => i.name.includes('pic 7'));
+      const p8 = p.images.find(i => i.name.includes('pic 8'));
+
+      return `
+        <div class="popup-4col-grid">
+          ${makeIntroBox(p.introText)}
+
+          <!-- Các ảnh lẻ hiện đầy đủ kích thước -->
+          <div class="col-span-4 popup-section-label">CONCEPT STILLS</div>
+          ${p1 ? makeImageItem(p1, 'col-span-2') : ''}
+          ${p2 ? makeImageItem(p2, 'col-span-2') : ''}
+          ${p3 ? makeImageItem(p3, 'col-span-2') : ''}
+          ${p4 ? makeImageItem(p4, 'col-span-2') : ''}
+
+          <!-- 2 ảnh pic6 và pic7 ghép liền kề ngang tạo ảnh dài -->
+          <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> PANORAMA VIEW</div>
+          ${p6 && p7 ? `
+            <div class="panorama-strip-horizontal col-span-4">
+              <div class="panorama-half" data-full-src="${p6.src}">
+                <img src="${p6.src}" alt="${p6.name}" loading="lazy" />
+                <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+              </div>
+              <div class="panorama-half" data-full-src="${p7.src}">
+                <img src="${p7.src}" alt="${p7.name}" loading="lazy" />
+                <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- pic5 và pic8: 1 hình dọc dài, pic5 ở trên và pic8 ở dưới, ĐẶT Ở CUỐI POP-UP -->
+          <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> VERTICAL PANORAMA</div>
+          ${p5 && p8 ? `
+            <div class="panorama-stack-vertical col-span-4">
+              <div class="vertical-half" data-full-src="${p5.src}">
+                <img src="${p5.src}" alt="${p5.name}" loading="lazy" />
+                <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+              </div>
+              <div class="vertical-half" data-full-src="${p8.src}">
+                <img src="${p8.src}" alt="${p8.name}" loading="lazy" />
+                <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // Default fallback
+    return `
+      <div class="popup-4col-grid">
+        ${makeIntroBox(p.introText)}
+        ${p.gifs.map(g => makeGifItem(g, 'col-span-2')).join('')}
+        ${p.images.map(img => makeImageItem(img, 'col-span-2')).join('')}
+      </div>
+    `;
+  }
+
+  /* ---------------------------------------------------------------------------
+     02. LOCAL SYSTEM CLOCK
+     --------------------------------------------------------------------------- */
   initSystemClock() {
     const clockEl = document.getElementById('live-system-time');
     const updateTime = () => {
@@ -143,28 +640,27 @@ class StudioApp {
   }
 
   /* ---------------------------------------------------------------------------
-     03. HIGH-PRECISION DRAGGABLE DESKTOP ITEMS & MORPHING SYSTEM
+     03. DRAGGABLE DESKTOP ITEMS & EXPAND / COLLAPSE
      --------------------------------------------------------------------------- */
   initDraggables() {
-    this.activeWindows = new Set();
     const items = document.querySelectorAll('.desktop-item');
 
     items.forEach(item => {
       const iconFace = item.querySelector('.item-icon-face');
       const windowChrome = item.querySelector('.window-chrome');
 
-      // Dragging in Icon Mode
+      // Dragging icon
       if (iconFace) {
         this.makeElementDraggable(item, iconFace, 'icon');
       }
 
-      // Dragging in Window Mode
+      // Dragging window
       if (windowChrome) {
         this.makeElementDraggable(item, windowChrome, 'window');
       }
 
-      // Clicking icon face expands the item into the 720px popup window
-      iconFace?.addEventListener('click', (e) => {
+      // Click icon mở pop-up
+      iconFace?.addEventListener('click', () => {
         if (item.dataset.wasDragged === 'true') {
           item.dataset.wasDragged = 'false';
           return;
@@ -172,7 +668,7 @@ class StudioApp {
         this.expandItem(item);
       });
 
-      // Window Chrome controls
+      // Điều khiển cửa sổ
       const closeBtn = item.querySelector('.win-btn-close');
       const minBtn = item.querySelector('.win-btn-minimize');
       const maxBtn = item.querySelector('.win-btn-maximize');
@@ -189,14 +685,12 @@ class StudioApp {
 
       maxBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
-        this.playTactileSound('normal');
         item.classList.toggle('is-maximized');
       });
 
       windowChrome?.addEventListener('dblclick', (e) => {
         if (e.target.closest('button')) return;
         item.classList.toggle('is-maximized');
-        this.playTactileSound('high');
       });
 
       item.addEventListener('pointerdown', () => this.bringToFront(item));
@@ -217,7 +711,6 @@ class StudioApp {
       isDragging = true;
       element.dataset.wasDragged = 'false';
       this.bringToFront(element);
-      this.playTactileSound('low');
 
       startX = e.clientX;
       startY = e.clientY;
@@ -292,7 +785,7 @@ class StudioApp {
   }
 
   /* ---------------------------------------------------------------------------
-     04. MORPHING CONTROLS (EXPAND ICON TO 720PX WINDOW / COLLAPSE TO ICON)
+     04. EXPAND & COLLAPSE POP-UP
      --------------------------------------------------------------------------- */
   expandItem(item) {
     if (!item) return;
@@ -301,18 +794,14 @@ class StudioApp {
       return;
     }
 
-    // Save exact position before expanding so collapsing returns to the exact same spot
     item.dataset.savedLeft = item.style.left || '';
     item.dataset.savedTop = item.style.top || '';
-    item.dataset.savedRight = item.style.right || '';
-    item.dataset.savedBottom = item.style.bottom || '';
 
-    // Auto-adjust position so the 720px window stays gracefully on screen
     const stage = document.getElementById('canvas-stage');
     const stageWidth = stage ? stage.clientWidth : window.innerWidth;
     const stageHeight = stage ? stage.clientHeight : window.innerHeight;
-    const targetWidth = Math.min(720, stageWidth - 24);
-    const targetHeight = Math.min(560, stageHeight - 40);
+    const targetWidth = Math.min(880, stageWidth - 24);
+    const targetHeight = Math.min(720, stageHeight - 40);
 
     const rect = item.getBoundingClientRect();
     const parentRect = item.offsetParent ? item.offsetParent.getBoundingClientRect() : { left: 0, top: 0 };
@@ -322,32 +811,24 @@ class StudioApp {
     if (currentLeft + targetWidth > stageWidth - 20) {
       currentLeft = Math.max(20, stageWidth - targetWidth - 20);
     }
-    if (currentLeft < 20) {
-      currentLeft = 20;
-    }
+    if (currentLeft < 20) currentLeft = 20;
 
     if (currentTop + targetHeight > stageHeight - 20) {
       currentTop = Math.max(20, stageHeight - targetHeight - 20);
     }
-    if (currentTop < 10) {
-      currentTop = 10;
-    }
+    if (currentTop < 10) currentTop = 10;
 
     item.style.left = `${currentLeft}px`;
     item.style.top = `${currentTop}px`;
-    item.style.right = 'auto';
-    item.style.bottom = 'auto';
 
     item.classList.add('is-expanded');
     item.classList.remove('is-minimized');
     this.bringToFront(item);
 
     this.activeWindows.add(item.id);
-    this.updateActiveWindowsBadge();
-    this.playTactileSound('high');
 
     const tagTitle = item.querySelector('.chrome-tag')?.textContent || item.id;
-    this.showToast(`EXPANDED VIEWPORT: ${tagTitle}`);
+    this.showToast(`MỞ RỘNG: ${tagTitle}`);
   }
 
   collapseItem(item) {
@@ -356,232 +837,60 @@ class StudioApp {
     item.classList.remove('is-minimized');
     item.classList.remove('is-maximized');
 
-    // Restore exact position before opening
     if (item.dataset.savedLeft !== undefined) {
       item.style.left = item.dataset.savedLeft;
       item.style.top = item.dataset.savedTop;
-      item.style.right = item.dataset.savedRight;
-      item.style.bottom = item.dataset.savedBottom;
     }
 
     this.activeWindows.delete(item.id);
-    this.updateActiveWindowsBadge();
-    this.playTactileSound('low');
-    this.showToast('COLLAPSED TO DESKTOP ICON');
-  }
-
-  updateActiveWindowsBadge() {
-    const counter = document.getElementById('active-count-value');
-    if (counter) {
-      counter.textContent = String(this.activeWindows.size);
-    }
   }
 
   /* ---------------------------------------------------------------------------
-     05. COLOR GRADING REEL: INTERACTIVE BEFORE / AFTER SLIDER (TAG 04)
+     05. LIGHTBOX MODAL (XEM ẢNH & GIF PHÓNG TO)
      --------------------------------------------------------------------------- */
-  initColorGradingSlider() {
-    const container = document.getElementById('grading-slider-box');
-    const beforeMask = document.getElementById('grading-before-mask');
-    const handle = document.getElementById('grading-slider-handle');
+  initLightbox() {
+    const lightbox = document.getElementById('media-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.getElementById('lightbox-close');
 
-    if (!container || !beforeMask || !handle) return;
+    if (!lightbox || !lightboxImg) return;
 
-    let isSliding = false;
+    // Lắng nghe sự kiện click vào bất kỳ ảnh / gif / panorama nào
+    document.addEventListener('click', (e) => {
+      const targetEl = e.target.closest('[data-full-src]');
+      if (!targetEl) return;
 
-    const updateSlider = (clientX) => {
-      const rect = container.getBoundingClientRect();
-      const x = clientX - rect.left;
-      let percentage = (x / rect.width) * 100;
-      percentage = Math.max(0, Math.min(100, percentage));
+      const fullSrc = targetEl.dataset.fullSrc;
+      if (!fullSrc) return;
 
-      beforeMask.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`;
-      handle.style.left = `${percentage}%`;
+      lightboxImg.src = fullSrc;
+      lightbox.classList.add('is-open');
+    });
+
+    const closeLightbox = () => {
+      lightbox.classList.remove('is-open');
+      lightboxImg.src = '';
     };
 
-    container.addEventListener('pointerdown', (e) => {
-      isSliding = true;
-      container.setPointerCapture(e.pointerId);
-      updateSlider(e.clientX);
-      this.playTactileSound('normal');
+    closeBtn?.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
     });
 
-    container.addEventListener('pointermove', (e) => {
-      if (!isSliding) return;
-      updateSlider(e.clientX);
-    });
-
-    const stopSliding = (e) => {
-      if (!isSliding) return;
-      isSliding = false;
-      try {
-        container.releasePointerCapture(e.pointerId);
-      } catch {
-        // Fallback
-      }
-    };
-
-    container.addEventListener('pointerup', stopSliding);
-    container.addEventListener('pointercancel', stopSliding);
-  }
-
-  /* ---------------------------------------------------------------------------
-     06. VIDEO PLAYER QUICK CONTROLS & FULLSCREEN
-     --------------------------------------------------------------------------- */
-  initVideoPlayers() {
-    const videoWrappers = document.querySelectorAll('.player-wrapper');
-
-    videoWrappers.forEach(wrapper => {
-      const video = wrapper.querySelector('video');
-      const playBtn = wrapper.querySelector('.v-btn-play');
-      const muteBtn = wrapper.querySelector('.v-btn-mute');
-      const fsBtn = wrapper.querySelector('.v-btn-fullscreen');
-
-      if (!video) return;
-
-      playBtn?.addEventListener('click', () => {
-        if (video.paused) {
-          video.play();
-          playBtn.textContent = '❚❚';
-        } else {
-          video.pause();
-          playBtn.textContent = '▶';
-        }
-        this.playTactileSound('normal');
-      });
-
-      muteBtn?.addEventListener('click', () => {
-        video.muted = !video.muted;
-        muteBtn.textContent = video.muted ? 'UNMUTE' : 'MUTE';
-        this.playTactileSound('normal');
-      });
-
-      fsBtn?.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-          wrapper.requestFullscreen().catch(() => {});
-        } else {
-          document.exitFullscreen().catch(() => {});
-        }
-        this.playTactileSound('high');
-      });
-
-      // Double-click video to toggle fullscreen
-      video.addEventListener('dblclick', () => {
-        if (!document.fullscreenElement) {
-          wrapper.requestFullscreen().catch(() => {});
-        } else {
-          document.exitFullscreen().catch(() => {});
-        }
-      });
-    });
-  }
-
-  /* ---------------------------------------------------------------------------
-     07. VIEW SWITCHER (CANVAS FREE VIEW VS INDEX ARCHIVE)
-     --------------------------------------------------------------------------- */
-  initViewSwitcher() {
-    const canvasBtn = document.getElementById('view-mode-canvas');
-    const indexBtn = document.getElementById('view-mode-index');
-    const desktopLayer = document.getElementById('desktop-canvas-layer');
-    const indexView = document.getElementById('index-archive-view');
-
-    canvasBtn?.addEventListener('click', () => {
-      canvasBtn.classList.add('is-active');
-      indexBtn?.classList.remove('is-active');
-      indexView?.classList.add('is-hidden');
-      if (desktopLayer) desktopLayer.style.display = 'block';
-      this.playTactileSound('high');
-    });
-
-    indexBtn?.addEventListener('click', () => {
-      indexBtn.classList.add('is-active');
-      canvasBtn?.classList.remove('is-active');
-      indexView?.classList.remove('is-hidden');
-      if (desktopLayer) desktopLayer.style.display = 'none';
-      this.playTactileSound('high');
-    });
-  }
-
-  /* ---------------------------------------------------------------------------
-     08. EDITORIAL DRAWERS (INFO / ABOUT & CONTACT)
-     --------------------------------------------------------------------------- */
-  initDrawers() {
-    const aboutModal = document.getElementById('modal-about');
-    const contactModal = document.getElementById('modal-contact');
-
-    const openAboutBtn = document.getElementById('btn-open-about');
-    const closeAboutBtn = document.getElementById('btn-close-about');
-
-    const openContactBtn = document.getElementById('btn-open-contact');
-    const closeContactBtn = document.getElementById('btn-close-contact');
-
-    const copyEmailBtn = document.getElementById('btn-copy-email');
-
-    // About Modal
-    openAboutBtn?.addEventListener('click', () => {
-      aboutModal?.classList.remove('is-hidden');
-      contactModal?.classList.add('is-hidden');
-      this.playTactileSound('high');
-    });
-
-    closeAboutBtn?.addEventListener('click', () => {
-      aboutModal?.classList.add('is-hidden');
-      this.playTactileSound('low');
-    });
-
-    // Contact Modal
-    openContactBtn?.addEventListener('click', () => {
-      contactModal?.classList.remove('is-hidden');
-      aboutModal?.classList.add('is-hidden');
-      this.playTactileSound('high');
-    });
-
-    closeContactBtn?.addEventListener('click', () => {
-      contactModal?.classList.add('is-hidden');
-      this.playTactileSound('low');
-    });
-
-    // Copy Email
-    copyEmailBtn?.addEventListener('click', () => {
-      const email = siteConfig.creator.email;
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(email).then(() => {
-          this.showToast(`COPIED DISPATCH: ${email}`);
-          this.playTactileSound('high');
-        }).catch(() => {
-          this.fallbackCopyText(email);
-        });
-      } else {
-        this.fallbackCopyText(email);
-      }
-    });
-
-    // Contact form submit simulation
-    const form = document.getElementById('contact-form');
-    form?.addEventListener('submit', () => {
-      this.showToast('DISPATCH TRANSMITTED TO DIRECTORS DESK');
-      this.playTactileSound('high');
-      contactModal?.classList.add('is-hidden');
-      form.reset();
-    });
-
-    // Close drawers on Escape key
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        aboutModal?.classList.add('is-hidden');
-        contactModal?.classList.add('is-hidden');
+      if (e.key === 'Escape' && lightbox.classList.contains('is-open')) {
+        closeLightbox();
       }
     });
   }
 
   /* ---------------------------------------------------------------------------
-     08B. DIRECT APP & WEB PLATFORM CHANNELS IN FOOTER
+     08. DIRECT APP & WEB PLATFORM CHANNELS IN FOOTER
      --------------------------------------------------------------------------- */
   initFooterPlatformLinks() {
     const platformLinks = document.querySelectorAll('.footer-platform-strip .platform-btn');
     const emailBtn = document.getElementById('btn-footer-email');
 
-    // Wire URLs dynamically from siteConfig
     platformLinks.forEach(link => {
       const platform = link.dataset.platform;
       if (!platform) return;
@@ -590,30 +899,77 @@ class StudioApp {
       if (siteConfig.creator.socials && siteConfig.creator.socials[lower]) {
         link.href = siteConfig.creator.socials[lower];
       }
-
-      link.addEventListener('click', (e) => {
-        if (lower === 'email') {
-          // Handled by emailBtn
-          return;
-        }
-        this.playTactileSound('high');
-        this.showToast(`CONNECTING TO ${platform.toUpperCase()} ↗`);
-      });
     });
 
-    emailBtn?.addEventListener('click', () => {
-      const email = siteConfig.creator.email || 'contact@alexandervo.studio';
-      this.playTactileSound('high');
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(email).then(() => {
-          this.showToast(`COPIED DISPATCH: ${email}`);
-        }).catch(() => {
-          this.fallbackCopyText(email);
-        });
-      } else {
-        this.fallbackCopyText(email);
+    emailBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const email = siteConfig.creator.email || 'hoanglong9975@gmail.com';
+      this.copyEmailToClipboard(email);
+    });
+  }
+
+  /* ---------------------------------------------------------------------------
+     08B. CONTACT DRAWER & EMAIL COPY HANDLERS
+     --------------------------------------------------------------------------- */
+  initContactDrawer() {
+    const contactModal = document.getElementById('modal-contact');
+    const openContactBtn = document.getElementById('btn-open-contact');
+    const closeContactBtn = document.getElementById('btn-close-contact');
+    const copyEmailBtn = document.getElementById('btn-copy-email');
+    const emailLink = document.getElementById('email-link');
+    const contactForm = document.getElementById('contact-form');
+
+    // Mở Contact Drawer khi nhấp nút [CONTACT ✉]
+    openContactBtn?.addEventListener('click', () => {
+      contactModal?.classList.remove('is-hidden');
+    });
+
+    // Đóng Contact Drawer khi nhấp [CLOSE ✕]
+    closeContactBtn?.addEventListener('click', () => {
+      contactModal?.classList.add('is-hidden');
+    });
+
+    // Nhấp nút sao chép email trong Contact Drawer
+    copyEmailBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const email = siteConfig.creator.email || 'hoanglong9975@gmail.com';
+      this.copyEmailToClipboard(email);
+    });
+
+    // Nhấp link email trực tiếp trong Contact Drawer
+    emailLink?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const email = siteConfig.creator.email || 'hoanglong9975@gmail.com';
+      this.copyEmailToClipboard(email);
+    });
+
+    // Submit form giả lập gửi tin nhắn
+    contactForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.showToast('DISPATCH TRANSMITTED TO DIRECTORS DESK');
+      contactModal?.classList.add('is-hidden');
+      contactForm.reset();
+    });
+
+    // Đóng modal khi nhấn phím Escape
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && contactModal && !contactModal.classList.contains('is-hidden')) {
+        contactModal.classList.add('is-hidden');
       }
     });
+  }
+
+  copyEmailToClipboard(email) {
+    const targetEmail = email || siteConfig.creator.email || 'hoanglong9975@gmail.com';
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(targetEmail).then(() => {
+        this.showToast(`ĐÃ COPY VÀO BỘ NHỚ TẠM: ${targetEmail}`);
+      }).catch(() => {
+        this.fallbackCopyText(targetEmail);
+      });
+    } else {
+      this.fallbackCopyText(targetEmail);
+    }
   }
 
   fallbackCopyText(text) {
@@ -625,8 +981,7 @@ class StudioApp {
     textArea.select();
     try {
       document.execCommand('copy');
-      this.showToast(`COPIED DISPATCH: ${text}`);
-      this.playTactileSound('high');
+      this.showToast(`ĐÃ COPY VÀO BỘ NHỚ TẠM: ${text}`);
     } catch {
       this.showToast(`DISPATCH: ${text}`);
     }
@@ -634,39 +989,25 @@ class StudioApp {
   }
 
   /* ---------------------------------------------------------------------------
-     09. STRUCTURED INDEX ARCHIVE POPULATION
+     09. AUTO-REPOSITION ON WINDOW RESIZE (DÀN TRẢI KHÔNG ĐỂ TRỐNG)
      --------------------------------------------------------------------------- */
-  initIndexArchive() {
-    const tableBody = document.getElementById('index-table-rows');
-    if (!tableBody) return;
-
-    tableBody.innerHTML = '';
-
-    projects.forEach(project => {
-      const row = document.createElement('div');
-      row.className = 'index-table-row';
-      row.innerHTML = `
-        <span class="row-tag">${project.tagNumber}</span>
-        <div class="row-title-block">
-          <div class="row-title">${project.title}</div>
-          <div class="row-specs" style="color: #666; font-size: 9px;">${project.client} // ${project.year}</div>
-        </div>
-        <span class="row-role">${project.role}</span>
-        <span class="row-specs">${project.metadata.sensor || project.metadata.colorScience || '4K DCI'}</span>
-        <button class="row-btn" type="button">[LAUNCH ↗]</button>
-      `;
-
-      row.addEventListener('click', () => {
-        const canvasBtn = document.getElementById('view-mode-canvas');
-        canvasBtn?.click();
-        const tagNum = project.tagNumber.replace('TAG ', '').trim();
-        const targetItem = document.getElementById(`desktop-item-${tagNum}`);
-        if (targetItem) {
-          this.expandItem(targetItem);
-        }
-      });
-
-      tableBody.appendChild(row);
+  initWindowResizeListener() {
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const responsivePositions = this.computeResponsivePositions();
+        document.querySelectorAll('.desktop-item').forEach(item => {
+          // Chỉ reposition nếu item chưa bị kéo thả thủ công và không đang mở pop-up
+          if (!item.classList.contains('is-expanded') && item.dataset.wasDragged !== 'true') {
+            const pid = item.dataset.projectId;
+            if (responsivePositions[pid]) {
+              item.style.left = `${responsivePositions[pid].x}px`;
+              item.style.top = `${responsivePositions[pid].y}px`;
+            }
+          }
+        });
+      }, 150);
     });
   }
 
@@ -683,11 +1024,11 @@ class StudioApp {
     clearTimeout(this.toastTimer);
     this.toastTimer = setTimeout(() => {
       toast.classList.add('is-hidden');
-    }, 2400);
+    }, 2200);
   }
 }
 
-// Instantiate on DOM load or immediate if ready
+// Instantiate on DOM load
 if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', () => {
     window.studioApp = new StudioApp();

@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     
     <!-- SEO & Metadata -->
-    <title>ALEXANDER VO — Director & Lead Colorist // Editorial Studio</title>
-    <meta name="description" content="Awwwards-grade portfolio of Alexander Vo: Commercial director, offline/online film editor, and lead colorist specializing in 35mm film emulation and ARRI/RED pipelines." />
+    <title>LAM HOANG — Director & Lead Colorist // Editorial Studio</title>
+    <meta name="description" content="Awwwards-grade portfolio of Lam Hoang: Commercial director, offline/online film editor, and lead colorist specializing in 35mm film emulation and ARRI/RED pipelines." />
     <meta name="keywords" content="video editor, film director, colorist, DaVinci Resolve, commercial TVC, music video, editorial portfolio, brutalist web design" />
-    <meta property="og:title" content="ALEXANDER VO — Director & Lead Colorist // Editorial Studio" />
+    <meta property="og:title" content="LAM HOANG — Director & Lead Colorist // Editorial Studio" />
     <meta property="og:description" content="Authentic editorial portfolio featuring interactive floating viewports, live SMPTE timecode, and before/after color grading reels." />
     <meta property="og:type" content="website" />
     
@@ -43,40 +43,17 @@
       <div class="hud-header-left">
         <div class="studio-mark">
           <span class="studio-rec-dot" title="Live System Signal">●</span>
-          <span class="studio-title">ALEXANDER VO</span>
+          <span class="studio-title">LAM HOANG</span>
           <span class="studio-slash">/</span>
           <span class="studio-sub">DIR & COLORIST</span>
-        </div>
-        <div class="hud-divider"></div>
-        <div class="hud-live-clock">
-          <span class="hud-label">LOC:</span>
-          <span id="live-system-time">00:00:00 GMT+7</span>
-        </div>
-      </div>
-
-      <div class="hud-header-center">
-        <div class="view-mode-toggle" role="group" aria-label="View Mode">
-          <button id="view-mode-canvas" class="view-btn is-active" type="button" title="Free Draggable Canvas View">
-            <span class="btn-icon">❖</span> CANVAS VIEW
-          </button>
-          <button id="view-mode-index" class="view-btn" type="button" title="Structured Project Index List">
-            <span class="btn-icon">☰</span> INDEX ARCHIVE
-          </button>
-        </div>
-        <div class="active-windows-badge" id="active-windows-counter">
-          <span class="hud-label">ACTIVE VIEWPORTS:</span>
-          <span class="badge-count" id="active-count-value">0</span>
         </div>
       </div>
 
       <div class="hud-header-right">
-        <button id="btn-audio-toggle" class="hud-btn hud-btn-audio" type="button" aria-label="Toggle Tactical Audio Effects">
-          <span class="audio-state-dot"></span>
-          <span id="audio-state-text">SFX: OFF</span>
-        </button>
-        <button id="btn-open-about" class="hud-btn hud-btn-accent" type="button">
-          [INFO / ABOUT]
-        </button>
+        <div class="hud-live-clock">
+          <span class="hud-label">LOC:</span>
+          <span id="live-system-time">00:00:00 LOC</span>
+        </div>
       </div>
     </header>
 
@@ -87,596 +64,10 @@
       
       <!-- UNIFIED DESKTOP CANVAS ITEMS (MORPH FROM DESKTOP ICONS TO 720px POPUPS) -->
       <section id="desktop-canvas-layer" class="desktop-canvas-layer" aria-label="Interactive Desktop Canvas">
-
-        <!-- ===================================================================
-             TAG 02: COMMERCIAL / TVC (TOP CENTER)
-             =================================================================== -->
-        <article class="desktop-item" id="desktop-item-02" data-project-id="tag-02" style="top: 40px; left: 44%;">
-          <!-- ICON FACE (COLLAPSED DESKTOP ICON - WINDOWS DESKTOP STYLE) -->
-          <div class="item-icon-face">
-            <div class="icon-window-tile">
-              <div class="icon-top-bar">
-                <span class="icon-tag-id">[TAG 02]</span>
-                <span class="icon-drag-dots" title="Drag Icon">:::</span>
-              </div>
-              <div class="icon-preview-box">
-                <img src="/assets/grading_graded.jpg" alt="Commercial Preview" class="icon-img-thumb" draggable="false" />
-                <div class="icon-crosshair">+</div>
-                <span class="icon-format-pill">16:9 TVC</span>
-              </div>
-            </div>
-            <div class="desktop-icon-external-label">
-              <span class="desktop-icon-external-title">COMMERCIAL - TVC</span>
-            </div>
-          </div>
-
-          <!-- WINDOW FACE (EXPANDED 720PX POPUP) -->
-          <div class="item-window-face">
-            <div class="window-chrome" title="Drag to reposition window">
-              <div class="chrome-left">
-                <span class="chrome-tag">[WINDOW POP-UP: BRAND COMMERCIAL]</span>
-                <span class="chrome-timecode tc-live-02">00:01:00:00</span>
-              </div>
-              <div class="chrome-controls">
-                <button class="win-btn win-btn-minimize" type="button" title="Minimize / Collapse to Icon" aria-label="Minimize">_</button>
-                <button class="win-btn win-btn-maximize" type="button" title="Maximize window" aria-label="Maximize">□</button>
-                <button class="win-btn win-btn-close" type="button" title="Close / Collapse to Icon" aria-label="Close">[X]</button>
-              </div>
-            </div>
-
-            <div class="window-content">
-              <div class="player-wrapper aspect-16-9">
-                <video class="viewport-video-el" id="video-tag-02" poster="/assets/grading_graded.jpg" playsinline loop muted autoplay preload="metadata">
-                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4" type="video/mp4" />
-                </video>
-                <div class="video-overlay-burn"></div>
-                <div class="video-hud-overlay">
-                  <div class="cam-meta-top">
-                    <span>VIDEO 16:9 AUTO-LOOP, NO SOUND</span>
-                    <span>23.976 FPS</span>
-                  </div>
-                  <div class="cam-crosshair">+</div>
-                  <div class="cam-meta-bottom">
-                    <span>(Double click để bật Fullscreen)</span>
-                    <span>REDCODE RAW 8:1</span>
-                  </div>
-                </div>
-                <div class="video-quick-controls">
-                  <button class="v-btn v-btn-play" type="button" title="Play/Pause">❚❚</button>
-                  <button class="v-btn v-btn-mute" type="button" title="Mute/Unmute">UNMUTE</button>
-                  <button class="v-btn v-btn-fullscreen" type="button" title="Fullscreen">⛶</button>
-                </div>
-              </div>
-
-              <!-- Stills Section Header -->
-              <div class="stills-section-header">
-                <span>02 // CAMPAIGN FRAMES & CAR SHOTS</span>
-                <span class="stills-scroll-hint">▼ SCROLL TO BROWSE</span>
-              </div>
-
-              <!-- Stills Grid Container -->
-              <div class="stills-grid-container">
-                <div class="still-box">
-                  <div class="still-media-frame">
-                    <img src="/assets/grading_graded.jpg" alt="Commercial Campaign Still 01" loading="lazy" />
-                    <span class="still-tag">[FRAME 01]</span>
-                  </div>
-                  <div class="still-caption">
-                    <span>ALPINE PASS // 8K VV</span>
-                    <span class="still-mono">T2.8 ISO 400</span>
-                  </div>
-                </div>
-                <div class="still-box">
-                  <div class="still-media-frame">
-                    <img src="/assets/still_mv_01.jpg" alt="Commercial Campaign Still 02" loading="lazy" />
-                    <span class="still-tag">[FRAME 02]</span>
-                  </div>
-                  <div class="still-caption">
-                    <span>TUNNEL GLOW // HIGH CRANK</span>
-                    <span class="still-mono">T1.4 ISO 800</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Extended Production Notes & Narrative -->
-              <div class="window-notes-block">
-                <div class="notes-header">[CAMPAIGN BRIEF & RESOLVE WORKFLOW]</div>
-                <p class="notes-body">
-                  Precision cut luxury automotive commercial shot on coastal alpine passes. Highlighting aerodynamics, tactile carbon finishes, and dusk golden-hour transitions. Mastered for global cinema distribution and international 4K broadcast.
-                </p>
-                <div class="notes-meta-tags">
-                  <span>CAMERA: RED V-RAPTOR XL 8K</span>
-                  <span>CODEC: REDCODE RAW 8:1</span>
-                  <span>COLOR: IPP2 WIDE GAMUT RGB</span>
-                  <span>AUDIO: 5.1 SURROUND -14 LUFS</span>
-                </div>
-              </div>
-
-              <!-- Slate Details -->
-              <div class="window-slate-footer">
-                <div class="slate-line">
-                  <span class="slate-highlight">Client:</span> Aston & Horizon Motors
-                  <span class="slate-sep">•</span>
-                  <span class="slate-highlight">Edit:</span> DaVinci Resolve 19
-                  <span class="slate-sep">•</span>
-                  <span class="slate-highlight">Mix:</span> 5.1 & -14 LUFS
-                  <span class="slate-sep">•</span>
-                  <span class="slate-highlight">Role:</span> Offline & Online Editor
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- ===================================================================
-             TAG 01: HERO PROJECT - YEON - MUSIC VIDEO (MID LEFT)
-             =================================================================== -->
-        <article class="desktop-item" id="desktop-item-01" data-project-id="tag-01" style="top: 220px; left: 80px;">
-          <!-- ICON FACE (COLLAPSED DESKTOP ICON - WINDOWS DESKTOP STYLE) -->
-          <div class="item-icon-face">
-            <div class="icon-window-tile">
-              <div class="icon-top-bar">
-                <span class="icon-tag-id">[TAG 01]</span>
-                <span class="icon-drag-dots" title="Drag Icon">:::</span>
-              </div>
-              <div class="icon-preview-box">
-                <img src="/assets/yeon_thumb.png" alt="yeon - music video preview" class="icon-img-thumb" draggable="false" />
-                <div class="icon-crosshair">+</div>
-                <span class="icon-format-pill">16:9 DCI</span>
-              </div>
-            </div>
-            <div class="desktop-icon-external-label">
-              <span class="desktop-icon-external-title">yeon-music video</span>
-            </div>
-          </div>
-
-          <!-- WINDOW FACE (EXPANDED 720PX POPUP) -->
-          <div class="item-window-face">
-            <div class="window-chrome" title="Drag to reposition window">
-              <div class="chrome-left">
-                <span class="chrome-tag">[WINDOW POP-UP: YEON - MUSIC VIDEO]</span>
-                <span class="chrome-timecode tc-live-01">01:00:14:08</span>
-              </div>
-              <div class="chrome-controls">
-                <button class="win-btn win-btn-minimize" type="button" title="Minimize / Collapse to Icon" aria-label="Minimize">_</button>
-                <button class="win-btn win-btn-maximize" type="button" title="Maximize window" aria-label="Maximize">□</button>
-                <button class="win-btn win-btn-close" type="button" title="Close / Collapse to Icon" aria-label="Close">[X]</button>
-              </div>
-            </div>
-
-            <div class="window-content">
-              <!-- 16:9 Main Video Player -->
-              <div class="player-wrapper aspect-16-9">
-                <video class="viewport-video-el" id="video-tag-01" poster="/assets/yeon_thumb.png" playsinline loop muted autoplay preload="metadata">
-                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4" />
-                </video>
-                <div class="video-overlay-burn"></div>
-                <div class="video-hud-overlay">
-                  <div class="cam-meta-top">
-                    <span>VIDEO LOOP CHÍNH: 16:9</span>
-                    <span>24 FPS</span>
-                  </div>
-                  <div class="cam-crosshair">+</div>
-                  <div class="cam-meta-bottom">
-                    <span>PRORES 4444 XQ</span>
-                    <span>4096x2304</span>
-                  </div>
-                </div>
-                <div class="video-quick-controls">
-                  <button class="v-btn v-btn-play" type="button" title="Play/Pause">❚❚</button>
-                  <button class="v-btn v-btn-mute" type="button" title="Mute/Unmute">UNMUTE</button>
-                  <button class="v-btn v-btn-fullscreen" type="button" title="Fullscreen">⛶</button>
-                </div>
-              </div>
-
-              <!-- CINEMATIC GIF LOOP SCENE (OPTIMIZED WEBP + LAZY LOAD DUAL-SOURCE) -->
-              <div class="gif-scene-section">
-                <div class="gif-scene-header">
-                  <div class="gif-header-left">
-                    <span class="gif-tag-badge">[SCENE LOOP: CẢNH ĂN BÁNH GIÒ]</span>
-                    <span class="gif-status-pill">● INFINITE LOOP</span>
-                  </div>
-                  <div class="gif-header-right">
-                    <span class="gif-meta-spec">FORMAT: ANIMATED WEBP / GIF (62% LIGHTER)</span>
-                  </div>
-                </div>
-
-                <div class="gif-media-frame">
-                  <picture class="gif-picture-element">
-                    <!-- Modern Animated WebP: 5.6MB (giảm ~9MB so với GIF 14.5MB), GPU decode, infinite loop -->
-                    <source srcset="/assets/canh_an_banh_gio.webp" type="image/webp" />
-                    <!-- Fallback original GIF -->
-                    <img src="/assets/CẢNH ĂN BÁNH GIÒ.gif" alt="yeon - Cảnh ăn bánh giò loop" class="gif-loop-media" loading="lazy" decoding="async" />
-                  </picture>
-
-                  <!-- Tactical Viewport HUD Overlay -->
-                  <div class="gif-hud-burn">
-                    <div class="gif-hud-top">
-                      <span>REC ● PLAYBACK LOOP</span>
-                      <span>FPS: 24.00</span>
-                    </div>
-                    <div class="gif-hud-crosshair">+</div>
-                    <div class="gif-hud-bottom">
-                      <span>SCENE: CẢNH ĂN BÁNH GIÒ</span>
-                      <span>YEON // MUSIC VIDEO</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gif-scene-caption">
-                  <div class="caption-title">CẢNH ĂN BÁNH GIÒ — EXCLUSIVE MV MOMENT</div>
-                  <p class="caption-desc">Phân đoạn loop vô tận được tối ưu bằng Animated WebP &amp; thuộc tính lazy-loading giúp giảm hơn 62% dung lượng truyền tải so với file GIF gốc 14.5MB, tiết kiệm băng thông và giúp trang web load cực nhẹ.</p>
-                </div>
-              </div>
-
-              <!-- Stills Section Header -->
-              <div class="stills-section-header">
-                <span>01 // PRODUCTION STILLS & CAMERA SLATES</span>
-                <span class="stills-scroll-hint">▼ SCROLL TO BROWSE GALLERY & CREW</span>
-              </div>
-
-              <!-- Stills Grid Container (Multi-Photo Set) -->
-              <div class="stills-grid-container">
-                <div class="still-box">
-                  <div class="still-media-frame">
-                    <img src="/assets/still_mv_01.jpg" alt="Music Video Production Still 01" loading="lazy" />
-                    <span class="still-tag">[STILL 01]</span>
-                  </div>
-                  <div class="still-caption">
-                    <span>INDUSTRIAL HALL // 35MM ANA</span>
-                    <span class="still-mono">T2.0 ISO 800</span>
-                  </div>
-                </div>
-                <div class="still-box">
-                  <div class="still-media-frame">
-                    <img src="/assets/still_mv_02.jpg" alt="Music Video Production Still 02" loading="lazy" />
-                    <span class="still-tag">[STILL 02]</span>
-                  </div>
-                  <div class="still-caption">
-                    <span>STAGE RIG // 30kW LASERS</span>
-                    <span class="still-mono">T1.4 ISO 1600</span>
-                  </div>
-                </div>
-                <div class="still-box">
-                  <div class="still-media-frame">
-                    <img src="/assets/grading_graded.jpg" alt="Music Video Production Still 03" loading="lazy" />
-                    <span class="still-tag">[STILL 03]</span>
-                  </div>
-                  <div class="still-caption">
-                    <span>DUSK EXT. // 35MM KODAK 500T</span>
-                    <span class="still-mono">T2.8 ISO 500</span>
-                  </div>
-                </div>
-                <div class="still-box">
-                  <div class="still-media-frame">
-                    <img src="/assets/vertical_reel.jpg" alt="Music Video Production Still 04" loading="lazy" />
-                    <span class="still-tag">[STILL 04]</span>
-                  </div>
-                  <div class="still-caption">
-                    <span>AVANT SILHOUETTE // MONO</span>
-                    <span class="still-mono">T1.8 ISO 1250</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Extended Production Notes & Narrative -->
-              <div class="window-notes-block">
-                <div class="notes-header">[EDITORIAL OVERVIEW & TIMELINE SPECS]</div>
-                <p class="notes-body">
-                  A high-octane 4-minute music video and synchronized arena tour stage visual system. Edited on an aggressive metric rhythm cut to transient percussion, treated with customized film halation and photochemically accurate Kodak 2383 print curves.
-                </p>
-                <div class="notes-meta-tags">
-                  <span>CAMERA: ARRI ALEXA 35</span>
-                  <span>CODEC: PRORES 4444 XQ</span>
-                  <span>COLOR: ARRI LOG-C4 / ACESCC 1.3</span>
-                  <span>LENSES: COOKE ANAMORPHIC /I</span>
-                </div>
-              </div>
-
-              <!-- Technical Slate Footer -->
-              <div class="window-slate-footer">
-                <div class="slate-line">
-                  <span class="slate-highlight">Artist:</span> XYZ Nocturne
-                  <span class="slate-sep">•</span>
-                  <span class="slate-highlight">BPM:</span> 130
-                  <span class="slate-sep">•</span>
-                  <span class="slate-highlight">Format:</span> 4K DCI Log
-                  <span class="slate-sep">•</span>
-                  <span class="slate-highlight">Role:</span> Lead Editor & Colorist
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- ===================================================================
-             TAG 03: SHORT REEL (MID RIGHT)
-             =================================================================== -->
-        <article class="desktop-item" id="desktop-item-03" data-project-id="tag-03" style="top: 220px; right: 90px; left: auto;">
-          <!-- ICON FACE (COLLAPSED DESKTOP ICON - WINDOWS DESKTOP STYLE) -->
-          <div class="item-icon-face">
-            <div class="icon-window-tile">
-              <div class="icon-top-bar">
-                <span class="icon-tag-id">[TAG 03]</span>
-                <span class="icon-drag-dots" title="Drag Icon">:::</span>
-              </div>
-              <div class="icon-preview-box">
-                <img src="/assets/vertical_reel.jpg" alt="Short Reel Preview" class="icon-img-thumb" draggable="false" />
-                <div class="icon-crosshair">+</div>
-                <span class="icon-format-pill">9:16 REEL</span>
-              </div>
-            </div>
-            <div class="desktop-icon-external-label">
-              <span class="desktop-icon-external-title">SHORT REEL (9:16)</span>
-            </div>
-          </div>
-
-          <!-- WINDOW FACE (EXPANDED 720PX POPUP) -->
-          <div class="item-window-face">
-            <div class="window-chrome" title="Drag to reposition window">
-              <div class="chrome-left">
-                <span class="chrome-tag">[WINDOW POP-UP: SHORT REEL 9:16]</span>
-                <span class="chrome-timecode tc-live-03">03:12:45:00</span>
-              </div>
-              <div class="chrome-controls">
-                <button class="win-btn win-btn-minimize" type="button" title="Minimize / Collapse to Icon" aria-label="Minimize">_</button>
-                <button class="win-btn win-btn-maximize" type="button" title="Maximize window" aria-label="Maximize">□</button>
-                <button class="win-btn win-btn-close" type="button" title="Close / Collapse to Icon" aria-label="Close">[X]</button>
-              </div>
-            </div>
-
-            <div class="window-content">
-              <!-- Split Cinema Slate for 9:16 format inside 720px window -->
-              <div class="reel-cinema-split">
-                <div class="reel-player-box aspect-9-16">
-                  <video class="viewport-video-el" id="video-tag-03" poster="/assets/vertical_reel.jpg" playsinline loop muted autoplay preload="metadata">
-                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
-                  </video>
-                  <div class="video-overlay-burn"></div>
-                  <div class="video-hud-overlay">
-                    <div class="cam-meta-top">
-                      <span>VIDEO LOOP DỌC</span>
-                      <span>60 FPS</span>
-                    </div>
-                    <div class="cam-crosshair">+</div>
-                    <div class="cam-meta-bottom">
-                      <span>9:16 VERTICAL</span>
-                      <span>S-LOG3 CINE</span>
-                    </div>
-                  </div>
-                  <div class="video-quick-controls">
-                    <button class="v-btn v-btn-play" type="button" title="Play/Pause">❚❚</button>
-                    <button class="v-btn v-btn-mute" type="button" title="Mute/Unmute">UNMUTE</button>
-                  </div>
-                </div>
-
-                <div class="reel-details-slate">
-                  <div class="slate-section-header">
-                    <span class="sub-label">[TECHNICAL SLATE // 9:16]</span>
-                    <h3 class="reel-project-title">AVANT-GARDE: DECONSTRUCTED FORM</h3>
-                  </div>
-                  
-                  <div class="reel-specs-table">
-                    <div class="spec-row">
-                      <span class="s-key">CLIENT:</span>
-                      <span class="s-val">MAISON NOIR // PARIS FASHION WEEK</span>
-                    </div>
-                    <div class="spec-row">
-                      <span class="s-key">CAMERA:</span>
-                      <span class="s-val">Sony FX6 Full-Frame 4K</span>
-                    </div>
-                    <div class="spec-row">
-                      <span class="s-key">SHUTTER:</span>
-                      <span class="s-val">90° High Cadence Mechanical</span>
-                    </div>
-                    <div class="spec-row">
-                      <span class="s-key">COLOR:</span>
-                      <span class="s-val">S-Gamut3.Cine / S-Log3</span>
-                    </div>
-                    <div class="spec-row">
-                      <span class="s-key">AUDIO:</span>
-                      <span class="s-val">Binaural Spatial Master</span>
-                    </div>
-                    <div class="spec-row">
-                      <span class="s-key">ROLE:</span>
-                      <span class="s-val">Director & Lead Editor</span>
-                    </div>
-                  </div>
-
-                  <p class="reel-synopsis">
-                    Kinetic vertical motion study designed for monolithic OLED displays. Rapid architectural match cuts synced to industrial modular techno.
-                  </p>
-                </div>
-              </div>
-
-              <div class="window-slate-footer">
-                <div class="slate-line">
-                  <span class="slate-highlight">Client:</span> Maison Noir
-                  <span class="slate-sep">•</span>
-                  <span class="slate-highlight">Location:</span> Paris Fashion Week
-                  <span class="slate-sep">•</span>
-                  <span class="slate-highlight">Cadence:</span> 60 FPS High Crank
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- ===================================================================
-             TAG 04: COLOR GRADING REEL (BOTTOM CENTER)
-             =================================================================== -->
-        <article class="desktop-item" id="desktop-item-04" data-project-id="tag-04" style="bottom: 50px; top: auto; left: 40%;">
-          <!-- ICON FACE (COLLAPSED DESKTOP ICON - WINDOWS DESKTOP STYLE) -->
-          <div class="item-icon-face">
-            <div class="icon-window-tile">
-              <div class="icon-top-bar">
-                <span class="icon-tag-id">[TAG 04]</span>
-                <span class="icon-drag-dots" title="Drag Icon">:::</span>
-              </div>
-              <div class="icon-preview-box">
-                <img src="/assets/grading_graded.jpg" alt="Color Grading Preview" class="icon-img-thumb" draggable="false" />
-                <div class="icon-crosshair">+</div>
-                <span class="icon-format-pill">BEFORE / AFTER</span>
-              </div>
-            </div>
-            <div class="desktop-icon-external-label">
-              <span class="desktop-icon-external-title">COLOR GRADING</span>
-            </div>
-          </div>
-
-          <!-- WINDOW FACE (EXPANDED 720PX POPUP) -->
-          <div class="item-window-face">
-            <div class="window-chrome" title="Drag to reposition window">
-              <div class="chrome-left">
-                <span class="chrome-tag">[COLOR GRADING: BEFORE / AFTER]</span>
-                <span class="chrome-timecode tc-live-04">04:00:21:12</span>
-              </div>
-              <div class="chrome-controls">
-                <button class="win-btn win-btn-minimize" type="button" title="Minimize / Collapse to Icon" aria-label="Minimize">_</button>
-                <button class="win-btn win-btn-maximize" type="button" title="Maximize window" aria-label="Maximize">□</button>
-                <button class="win-btn win-btn-close" type="button" title="Close / Collapse to Icon" aria-label="Close">[X]</button>
-              </div>
-            </div>
-
-            <div class="window-content">
-              <!-- Interactive Comparison Split Slider -->
-              <div class="grading-slider-container" id="grading-slider-box" aria-label="Drag slider to compare raw Log vs graded look">
-                <!-- After Layer (Graded) -->
-                <div class="grading-layer grading-layer-after">
-                  <img src="/assets/grading_graded.jpg" alt="Kodak 2383 Finished Grade" draggable="false" />
-                  <div class="grading-pill-tag tag-grade-right">GRADE: KODAK 2383 [REC.709]</div>
-                </div>
-
-                <!-- Before Layer (Flat Log-C with clipping mask) -->
-                <div class="grading-layer grading-layer-before" id="grading-before-mask">
-                  <img src="/assets/grading_graded.jpg" alt="ARRI Flat Log-C4" class="log-curve-filter" draggable="false" />
-                  <div class="grading-pill-tag tag-grade-left">RAW: FLAT ARRI LOG-C4</div>
-                </div>
-
-                <!-- Draggable Center Handle Divider -->
-                <div class="grading-handle-line" id="grading-slider-handle">
-                  <div class="handle-thumb">
-                    <span class="handle-arrow">◀</span>
-                    <span class="handle-pill">SLIDE</span>
-                    <span class="handle-arrow">▶</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- DaVinci Resolve Node Pipeline Slate -->
-              <div class="grading-slate-grid">
-                <div class="slate-col">
-                  <span class="col-title">INPUT SPACE:</span>
-                  <span class="col-val">ARRI Wide Gamut 4 / LogC4</span>
-                </div>
-                <div class="slate-col">
-                  <span class="col-title">PRINT PIPELINE:</span>
-                  <span class="col-val">Kodak 2383 D55 Film Print Emulation</span>
-                </div>
-                <div class="slate-col">
-                  <span class="col-title">MONITOR TARGET:</span>
-                  <span class="col-val">Sony BVM-HX310 [1000-nit HDR / Rec.709]</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-      </section>
-
-      <!-- =======================================================================
-           INDEX ARCHIVE VIEW (STRUCTURED TABLE FALLBACK)
-           ======================================================================= -->
-      <section id="index-archive-view" class="index-archive-view is-hidden" aria-label="Structured Project Archive">
-        <div class="index-table-header">
-          <span class="col-idx">ID</span>
-          <span class="col-title">PROJECT TITLE / CLIENT</span>
-          <span class="col-role">DISCIPLINE & ROLE</span>
-          <span class="col-specs">CAMERA & COLOR PIPELINE</span>
-          <span class="col-action">VIEWPORT</span>
-        </div>
-        <div class="index-table-body" id="index-table-rows">
-          <!-- Populated dynamically from projects.js -->
-        </div>
+        <!-- Rendered dynamically from src/data/projects.js -->
       </section>
 
     </main>
-
-    <!-- =======================================================================
-         INFO / ABOUT SLATE MODAL (EDITORIAL DOSSIER)
-         ======================================================================= -->
-    <aside id="modal-about" class="editorial-drawer is-hidden" aria-modal="true" role="dialog" aria-labelledby="about-title">
-      <div class="drawer-header">
-        <div class="drawer-title-group">
-          <span class="drawer-mono-badge">[TECHNICAL DOSSIER]</span>
-          <h2 id="about-title" class="drawer-heading">DIRECTOR & COLORIST PROFILE</h2>
-        </div>
-        <button id="btn-close-about" class="drawer-close-btn" type="button" aria-label="Close About Slate">[CLOSE ✕]</button>
-      </div>
-
-      <div class="drawer-body">
-        <section class="drawer-section">
-          <h3 class="section-label">01 // PHILOSOPHY & PRACTICE</h3>
-          <p class="section-lead">
-            Rooted in raw brutalist cinematography, architectural framing, and custom photochemically accurate film print emulation (Kodak 2383 and 5219 grain pipelines).
-          </p>
-          <p class="section-text">
-            Specializing in high-cadence commercial storytelling, music videos, and precision color science. Operating with DaVinci Resolve Studio 19 Advanced Panel, Baselight, and ARRI Alexa 35 / RED V-Raptor camera pipelines.
-          </p>
-        </section>
-
-        <section class="drawer-section">
-          <h3 class="section-label">02 // RECOGNITION & SELECTIONS</h3>
-          <ul class="awards-slate-list">
-            <li>
-              <span class="award-yr">2025</span>
-              <span class="award-name">Vimeo Staff Pick: Best Cinematography</span>
-              <span class="award-work">"Echoes of Hanoi"</span>
-            </li>
-            <li>
-              <span class="award-yr">2024</span>
-              <span class="award-name">Cannes Lions Bronze: Luxury Commercial</span>
-              <span class="award-work">"Aura Nocturne"</span>
-            </li>
-            <li>
-              <span class="award-yr">2024</span>
-              <span class="award-name">Berlin Commercial Awards Nominee</span>
-              <span class="award-work">"Speed of Silence"</span>
-            </li>
-            <li>
-              <span class="award-yr">2023</span>
-              <span class="award-name">UKMVA Shortlist: Best Music Video</span>
-              <span class="award-work">"Sub-Zero"</span>
-            </li>
-          </ul>
-        </section>
-
-        <section class="drawer-section">
-          <h3 class="section-label">03 // HARDWARE & POST-PRODUCTION SUITE</h3>
-          <div class="specs-pill-grid">
-            <span class="tech-spec-item">DaVinci Resolve Studio 19</span>
-            <span class="tech-spec-item">Sony BVM-HX310 4K Master</span>
-            <span class="tech-spec-item">Colorfront Transkoder</span>
-            <span class="tech-spec-item">Baselight Look Dev</span>
-            <span class="tech-spec-item">ACEScc 1.3 Color Managed</span>
-            <span class="tech-spec-item">ProRes 4444 XQ / ARRIRAW</span>
-          </div>
-        </section>
-
-        <section class="drawer-section">
-          <h3 class="section-label">04 // SELECTED CLIENT ROSTER</h3>
-          <div class="client-mono-grid">
-            <span>PORSCHE APAC</span>
-            <span>SONY MUSIC</span>
-            <span>BALENCIAGA</span>
-            <span>RED BULL MEDIA</span>
-            <span>SAMSUNG GLOBAL</span>
-            <span>WARNER MUSIC</span>
-            <span>NIKE LAB</span>
-          </div>
-        </section>
-      </div>
-    </aside>
 
     <!-- =======================================================================
          CONTACT & BOOKING SLATE MODAL
@@ -699,7 +90,7 @@
         <div class="contact-direct-box">
           <span class="direct-label">PRIMARY DISPATCH:</span>
           <div class="email-copy-row">
-            <a href="mailto:contact@alexandervo.studio" class="direct-email" id="email-link">contact@alexandervo.studio</a>
+            <a href="mailto:hoanglong9975@gmail.com" class="direct-email" id="email-link">hoanglong9975@gmail.com</a>
             <button id="btn-copy-email" class="btn-copy-action" type="button" title="Copy Email to Clipboard">
               [COPY ADDRESS]
             </button>
@@ -727,10 +118,8 @@
         <div class="contact-socials-slate">
           <span class="section-label">EXTERNAL TRANSMISSION CHANNELS:</span>
           <div class="socials-links-row">
-            <a href="https://vimeo.com" target="_blank" rel="noopener noreferrer" class="social-wire-link">[VIMEO PRO ↗]</a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-wire-link">[INSTAGRAM ↗]</a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-wire-link">[YOUTUBE ↗]</a>
-            <a href="https://behance.net" target="_blank" rel="noopener noreferrer" class="social-wire-link">[BEHANCE ↗]</a>
+            <a href="https://www.instagram.com/ttenlam/" target="_blank" rel="noopener noreferrer" class="social-wire-link">[INSTAGRAM ↗]</a>
+            <a href="https://www.behance.net/lamnguyen233" target="_blank" rel="noopener noreferrer" class="social-wire-link">[BEHANCE ↗]</a>
           </div>
         </div>
       </div>
@@ -740,29 +129,14 @@
          HUD FOOTER (FIXED BOTTOM BORDER)
          ======================================================================= -->
     <footer id="hud-footer" class="hud-footer">
-      <div class="hud-footer-left">
-        <span class="status-indicator-dot">●</span>
-        <span class="hud-status-text">AVAILABLE FOR COMMISSIONS</span>
-        <span class="hud-slash">/</span>
-        <span class="hud-coord">HANOI [GMT+7]</span>
-      </div>
-
       <div class="hud-footer-center">
         <!-- Direct App & Web Platform Channels (Click to Navigate Directly) -->
         <nav class="footer-platform-strip" aria-label="Direct Social and Contact Platforms">
           <span class="platform-strip-label">CHANNELS:</span>
 
-          <!-- VIMEO -->
-          <a href="https://vimeo.com" target="_blank" rel="noopener noreferrer" class="platform-btn" data-platform="Vimeo" title="Vimeo [Director Portfolio & Rehearsals]" aria-label="Vimeo">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
-              <path d="M22.396 7.164c-.093 2.026-1.507 4.799-4.245 8.32-2.84 3.684-5.246 5.525-7.216 5.525-1.222 0-2.253-1.127-3.093-3.382l-1.684-6.175c-.624-2.254-1.295-3.382-2.012-3.382-.156 0-.702.327-1.638.981L1 7.506c1.03-1.03 2.22-2.057 3.57-3.082 1.84-1.396 3.197-2.128 4.07-2.193 2.058-.156 3.327.973 3.81 3.386.52 2.593.882 4.214 1.085 4.86.623 2.025 1.306 3.038 2.05 3.038.56 0 1.254-.79 2.083-2.373.829-1.583 1.277-2.584 1.345-3.003.125-.842-.234-1.263-1.077-1.263-.406 0-.858.078-1.357.234 1.034-3.386 3.013-5.012 5.937-4.88 2.164.094 3.193 1.488 3.087 4.183z"/>
-            </svg>
-            <span class="platform-btn-text">VIMEO</span>
-          </a>
-
           <!-- INSTAGRAM -->
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="platform-btn" data-platform="Instagram" title="Instagram [Visual Archive]" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <a href="https://www.instagram.com/ttenlam/" target="_blank" rel="noopener noreferrer" class="platform-btn" data-platform="Instagram" title="Instagram: @ttenlam" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
@@ -770,25 +144,17 @@
             <span class="platform-btn-text">INSTAGRAM</span>
           </a>
 
-          <!-- YOUTUBE -->
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="platform-btn" data-platform="YouTube" title="YouTube [4K Masters & Breakdowns]" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-            <span class="platform-btn-text">YOUTUBE</span>
-          </a>
-
           <!-- BEHANCE -->
-          <a href="https://behance.net" target="_blank" rel="noopener noreferrer" class="platform-btn" data-platform="Behance" title="Behance [Projects & Case Studies]" aria-label="Behance">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+          <a href="https://www.behance.net/lamnguyen233" target="_blank" rel="noopener noreferrer" class="platform-btn" data-platform="Behance" title="Behance: @lamnguyen233" aria-label="Behance">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
               <path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-4.726 3-3.107 0-5.5-2.02-5.5-5.32 0-3.906 2.721-5.68 5.454-5.68 3.654 0 5.046 2.68 4.772 5.834h-7.726c0 1.9 1.1 2.866 2.7 2.866 1.441 0 2.322-.65 2.667-1.424l2.359.724zm-4.726-5.834c-1.341 0-2.2.784-2.274 2.167h4.474c-.06-1.383-.859-2.167-2.2-2.167zm-10.927 6.834h-6.073v-14h6.582c3.285 0 5.418 1.543 5.418 4.316 0 1.637-.887 2.946-2.295 3.585 1.774.568 2.868 2.109 2.868 4.022 0 3.125-2.482 4.077-5.5 4.077zm-3.573-8.221h3.045c1.477 0 2.527-.584 2.527-1.895 0-1.288-.959-1.884-2.473-1.884h-3.099v3.779zm0 6.221h3.318c1.691 0 2.755-.658 2.755-2.062 0-1.442-1.127-2.159-2.836-2.159h-3.237v4.221z"/>
             </svg>
             <span class="platform-btn-text">BEHANCE</span>
           </a>
 
           <!-- DIRECT EMAIL -->
-          <a href="mailto:contact@alexandervo.studio" class="platform-btn platform-btn-email" id="btn-footer-email" data-platform="Email" title="Email: contact@alexandervo.studio (Click to Mail or Copy)" aria-label="Email">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <a href="mailto:hoanglong9975@gmail.com" class="platform-btn platform-btn-email" id="btn-footer-email" data-platform="Email" title="Email: hoanglong9975@gmail.com (Nhấp để sao chép)" aria-label="Email">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect x="2" y="4" width="20" height="16" rx="2"></rect>
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
             </svg>
@@ -796,17 +162,18 @@
           </a>
         </nav>
       </div>
-
-      <div class="hud-footer-right">
-        <div class="smpte-timecode-master">
-          <span class="smpte-label">SMPTE 24FPS:</span>
-          <span id="global-smpte-clock" class="smpte-digits">01:23:45:18</span>
-        </div>
-      </div>
     </footer>
 
     <!-- Toast Notification for Interactions -->
     <div id="hud-toast" class="hud-toast is-hidden" role="status" aria-live="polite"></div>
+
+    <!-- Lightbox Full-Resolution Media Viewer -->
+    <div id="media-lightbox" class="media-lightbox" role="dialog" aria-modal="true" aria-label="Xem ảnh phóng to">
+      <div class="lightbox-content-box">
+        <button id="lightbox-close" class="lightbox-close-btn" type="button" aria-label="Đóng phóng to">[ĐÓNG ✕ / ESC]</button>
+        <img id="lightbox-img" class="lightbox-img-el" src="" alt="Phóng to chi tiết" />
+      </div>
+    </div>
 
     <script type="module" src="/src/main.js"></script>
   </body>
