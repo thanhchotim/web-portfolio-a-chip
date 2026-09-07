@@ -11,11 +11,14 @@ class StudioApp {
   constructor() {
     this.highestZIndex = 200;
     this.activeWindows = new Set();
+    this.audioEnabled = false;
+    this.audioCtx = null;
 
     this.init();
   }
 
   init() {
+    this.initAudio();
     this.renderDesktopItems();
     this.initSystemClock();
     this.initDraggables();
@@ -717,6 +720,76 @@ class StudioApp {
   }
 
   /* ---------------------------------------------------------------------------
+     02.1 AUDIO SYNTHESIS ENGINE (TACTILE MECHANICAL CLICK)
+     --------------------------------------------------------------------------- */
+  initAudio() {
+    const audioBtn = document.getElementById('btn-audio-toggle');
+    const audioText = document.getElementById('audio-state-text');
+
+    audioBtn?.addEventListener('click', () => {
+      this.audioEnabled = !this.audioEnabled;
+      if (this.audioEnabled) {
+        if (!this.audioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.audioCtx = new AudioContext();
+        }
+        if (this.audioCtx.state === 'suspended') {
+          this.audioCtx.resume();
+        }
+        audioBtn.classList.add('is-on');
+        if (audioText) audioText.textContent = 'SFX: ON';
+        this.playTactileSound('high');
+        this.showToast('TACTICAL SFX: ACTIVATED');
+      } else {
+        audioBtn.classList.remove('is-on');
+        if (audioText) audioText.textContent = 'SFX: OFF';
+        this.showToast('TACTICAL SFX: MUTED');
+      }
+    });
+
+    // Phát âm thanh click chuột cơ học chân thực mỗi khi click chuột trên toàn trang
+    window.addEventListener('pointerdown', (e) => {
+      if (!this.audioEnabled) return;
+      if (e.target.closest('#btn-audio-toggle')) return;
+
+      const isInteractive = e.target.closest('button, a, .item-icon-face, .window-chrome, .popup-grid-item, input, textarea, .win-btn');
+      this.playTactileSound(isInteractive ? 'high' : 'normal');
+    }, { capture: true, passive: true });
+  }
+
+  playTactileSound(tone = 'normal') {
+    if (!this.audioEnabled) return;
+    try {
+      if (!this.audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.audioCtx = new AudioContext();
+      }
+      if (this.audioCtx.state === 'suspended') {
+        this.audioCtx.resume();
+      }
+      const now = this.audioCtx.currentTime;
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+
+      const freq = tone === 'high' ? 980 : tone === 'low' ? 320 : 540;
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now + 0.04);
+
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.045);
+    } catch {
+      // Audio context policy fallback
+    }
+  }
+
+  /* ---------------------------------------------------------------------------
      03. DRAGGABLE DESKTOP ITEMS & EXPAND / COLLAPSE
      --------------------------------------------------------------------------- */
   initDraggables() {
@@ -906,6 +979,7 @@ class StudioApp {
 
     // Kích hoạt nạp media theo yêu cầu (chỉ tải video khi mở popup)
     this.activateWindowMedia(item);
+    this.playTactileSound('high');
 
     const tagTitle = item.querySelector('.chrome-tag')?.textContent || item.id;
     this.showToast(`MỞ RỘNG: ${tagTitle}`);
@@ -915,6 +989,7 @@ class StudioApp {
     if (!item) return;
     // Tạm dừng mọi video đang phát trong popup khi đóng hoặc thu nhỏ
     this.deactivateWindowMedia(item);
+    this.playTactileSound('low');
 
     item.classList.remove('is-expanded');
     item.classList.remove('is-minimized');
