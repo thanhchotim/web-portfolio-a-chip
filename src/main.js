@@ -183,6 +183,16 @@ class StudioApp {
             </div>
           </div>
 
+          <!-- Video Teaser Clip MP4 -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> OFFICIAL TEASER CLIP [YEON 연]</div>
+            <div class="responsive-video-16-9">
+              <video controls playsinline loop muted preload="metadata">
+                <source src="/assets/yeon/teaser.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
           <!-- Set designer giới thiệu chiếm 4 ô -->
           ${introImg ? `
             <div class="hero-4col-item popup-grid-item col-span-4" data-full-src="${introImg.src}">
@@ -303,8 +313,7 @@ class StudioApp {
           <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> ANIMATION CUT SCENES</div>
           <div class="popup-grid-item col-span-1 cutscene-video-box">
             <video controls playsinline loop muted preload="metadata">
-              <source src="/assets/BLENDER/scene%201.webm" type="video/webm" />
-              <source src="/assets/BLENDER/scene%201" type="video/mp4" />
+              <source src="/assets/BLENDER/scene%201.mp4" type="video/mp4" />
             </video>
             <span class="item-badge-pill">SCENE 1</span>
           </div>
@@ -354,14 +363,49 @@ class StudioApp {
             </div>
           </div>
 
-          <!-- Teaser clip chiếm 4 ô -->
-          <div class="col-span-4 popup-video-feature">
-            <div class="popup-section-label"><span class="dot-rec">●</span> [02 // TEASER / VIDEO CLIP]</div>
+          <!-- Teaser video 1 & video 2 -->
+          <div class="col-span-2 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> [02 // TEASER CLIP 01]</div>
             <div class="responsive-video-16-9">
               <video controls loop muted playsinline preload="metadata">
                 <source src="/assets/THEEND/video1.mp4" type="video/mp4" />
               </video>
             </div>
+          </div>
+          <div class="col-span-2 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> [03 // TEASER CLIP 02]</div>
+            <div class="responsive-video-16-9">
+              <video controls loop muted playsinline preload="metadata">
+                <source src="/assets/THEEND/video%202.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          <!-- BTS Video Clips (BTS 1, BTS 2, BTS clip, pic8) -->
+          <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> ON-SET PRODUCTION BTS ARCHIVE</div>
+          <div class="popup-grid-item col-span-1 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/THEEND/BTS%201.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">BTS 01</span>
+          </div>
+          <div class="popup-grid-item col-span-1 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/THEEND/BTS%202.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">BTS 02</span>
+          </div>
+          <div class="popup-grid-item col-span-1 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/THEEND/BTS%20clip.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">BTS CLIP</span>
+          </div>
+          <div class="popup-grid-item col-span-1 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/THEEND/pic8.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">SHORT CUT</span>
           </div>
 
           <!-- Các hình JPG uncropped -->
@@ -390,7 +434,7 @@ class StudioApp {
             <div class="popup-section-label"><span class="dot-rec">●</span> [VOICE TALENT RECORDING]</div>
             <div class="responsive-video-16-9">
               <video controls playsinline loop muted preload="metadata">
-                <source src="/assets/LONG%20CH%C3%82U/Voice%20Talent.mov" type="video/mp4" />
+                <source src="/assets/LONG%20CH%C3%82U/Voice%20Talent.mp4" type="video/mp4" />
               </video>
             </div>
           </div>
@@ -484,12 +528,45 @@ class StudioApp {
 
           <!-- TVC video BTS 1 chiếm 4 ô -->
           <div class="col-span-4 popup-video-feature">
-            <div class="popup-section-label"><span class="dot-rec">●</span> COMMERCIAL TVC BTS</div>
+            <div class="popup-section-label"><span class="dot-rec">●</span> COMMERCIAL TVC BTS [MASTER]</div>
             <div class="responsive-video-16-9">
               <video controls playsinline loop muted preload="metadata">
                 <source src="/assets/TH%20TRUE%20FOOD/BTS%201.mp4" type="video/mp4" />
               </video>
             </div>
+          </div>
+
+          <!-- Các video BTS on-set từ 3 đến 7 xếp theo hàng -->
+          <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> ON-SET PRODUCTION BTS CLIPS</div>
+          <div class="popup-grid-item col-span-2 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/TH%20TRUE%20FOOD/BTS%203.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">BTS 03</span>
+          </div>
+          <div class="popup-grid-item col-span-2 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/TH%20TRUE%20FOOD/BTS%204.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">BTS 04</span>
+          </div>
+          <div class="popup-grid-item col-span-2 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/TH%20TRUE%20FOOD/BTS%205.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">BTS 05</span>
+          </div>
+          <div class="popup-grid-item col-span-2 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/TH%20TRUE%20FOOD/BTS%206.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">BTS 06</span>
+          </div>
+          <div class="popup-grid-item col-span-4 cutscene-video-box">
+            <video controls playsinline loop muted preload="metadata">
+              <source src="/assets/TH%20TRUE%20FOOD/BTS%207.mp4" type="video/mp4" />
+            </video>
+            <span class="item-badge-pill">BTS 07</span>
           </div>
 
           <!-- Các hình dọc đã xoay chuẩn 100%, hiện trọn vẹn preview -->
@@ -544,7 +621,7 @@ class StudioApp {
             <div class="popup-section-label"><span class="dot-rec">●</span> ON-SET BTS VIDEO</div>
             <div class="responsive-video-16-9">
               <video controls playsinline loop muted preload="metadata">
-                <source src="/assets/NO%20ALCOHOL/BTS%201.mov" type="video/mp4" />
+                <source src="/assets/NO%20ALCOHOL/BTS%201.mp4" type="video/mp4" />
               </video>
             </div>
           </div>
@@ -833,6 +910,9 @@ class StudioApp {
 
   collapseItem(item) {
     if (!item) return;
+    // Tạm dừng mọi video đang phát trong popup khi đóng hoặc thu nhỏ
+    item.querySelectorAll('video').forEach(v => v.pause());
+
     item.classList.remove('is-expanded');
     item.classList.remove('is-minimized');
     item.classList.remove('is-maximized');

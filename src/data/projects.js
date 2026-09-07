@@ -13,7 +13,9 @@ export const siteConfig = {
     availability: "AVAILABLE FOR COMMISSIONS — Q2/Q3 2026",
     email: "hoanglong9975@gmail.com",
     socials: {
+      vimeo: "https://vimeo.com",
       instagram: "https://www.instagram.com/ttenlam/",
+      youtube: "https://youtube.com",
       behance: "https://www.behance.net/lamnguyen233"
     }
   }
@@ -208,16 +210,16 @@ export const projects = [
     ],
     "videos": [
       {
-        "name": "BTS 1.mov",
-        "src": "/assets/THEEND/BTS%201.mov"
+        "name": "BTS 1.mp4",
+        "src": "/assets/THEEND/BTS%201.mp4"
       },
       {
-        "name": "BTS 2.mov",
-        "src": "/assets/THEEND/BTS%202.mov"
+        "name": "BTS 2.mp4",
+        "src": "/assets/THEEND/BTS%202.mp4"
       },
       {
-        "name": "BTS clip .mp4",
-        "src": "/assets/THEEND/BTS%20clip%20.mp4"
+        "name": "BTS clip.mp4",
+        "src": "/assets/THEEND/BTS%20clip.mp4"
       },
       {
         "name": "mood film.mp4",
@@ -228,12 +230,12 @@ export const projects = [
         "src": "/assets/THEEND/pic8.mp4"
       },
       {
-        "name": "video1.mp4",
-        "src": "/assets/THEEND/video1.mp4"
+        "name": "video 2.mp4",
+        "src": "/assets/THEEND/video%202.mp4"
       },
       {
-        "name": "video2.mp4",
-        "src": "/assets/THEEND/video2.mp4"
+        "name": "video1.mp4",
+        "src": "/assets/THEEND/video1.mp4"
       }
     ],
     "isTheEnd": true
@@ -375,8 +377,8 @@ export const projects = [
     ],
     "videos": [
       {
-        "name": "BTS 1.mov",
-        "src": "/assets/NO%20ALCOHOL/BTS%201.mov"
+        "name": "BTS 1.mp4",
+        "src": "/assets/NO%20ALCOHOL/BTS%201.mp4"
       }
     ],
     "isTheEnd": false
@@ -560,8 +562,8 @@ export const projects = [
     ],
     "videos": [
       {
-        "name": "Voice Talent.mov",
-        "src": "/assets/LONG%20CH%C3%82U/Voice%20Talent.mov"
+        "name": "Voice Talent.mp4",
+        "src": "/assets/LONG%20CH%C3%82U/Voice%20Talent.mp4"
       }
     ],
     "isTheEnd": false
@@ -616,24 +618,24 @@ export const projects = [
         "src": "/assets/TH%20TRUE%20FOOD/BTS%201.mp4"
       },
       {
-        "name": "BTS 3.mov",
-        "src": "/assets/TH%20TRUE%20FOOD/BTS%203.mov"
+        "name": "BTS 3.mp4",
+        "src": "/assets/TH%20TRUE%20FOOD/BTS%203.mp4"
       },
       {
-        "name": "BTS 4.mov",
-        "src": "/assets/TH%20TRUE%20FOOD/BTS%204.mov"
+        "name": "BTS 4.mp4",
+        "src": "/assets/TH%20TRUE%20FOOD/BTS%204.mp4"
       },
       {
-        "name": "BTS 5.mov",
-        "src": "/assets/TH%20TRUE%20FOOD/BTS%205.mov"
+        "name": "BTS 5.mp4",
+        "src": "/assets/TH%20TRUE%20FOOD/BTS%205.mp4"
       },
       {
-        "name": "BTS 6.mov",
-        "src": "/assets/TH%20TRUE%20FOOD/BTS%206.mov"
+        "name": "BTS 6.mp4",
+        "src": "/assets/TH%20TRUE%20FOOD/BTS%206.mp4"
       },
       {
-        "name": "BTS 7.mov",
-        "src": "/assets/TH%20TRUE%20FOOD/BTS%207.mov"
+        "name": "BTS 7.mp4",
+        "src": "/assets/TH%20TRUE%20FOOD/BTS%207.mp4"
       }
     ],
     "isTheEnd": false
@@ -765,8 +767,8 @@ export const projects = [
         "src": "/assets/BLENDER/clip%20anim%203D.mp4"
       },
       {
-        "name": "scene 1",
-        "src": "/assets/BLENDER/scene%201"
+        "name": "scene 1.mp4",
+        "src": "/assets/BLENDER/scene%201.mp4"
       },
       {
         "name": "scene 2.mp4",

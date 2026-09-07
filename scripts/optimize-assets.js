@@ -143,8 +143,8 @@ async function optimize() {
           });
         }
       }
-      // Xử lý Video (MP4, MOV)
-      else if (['.mp4', '.mov'].includes(ext)) {
+      // Xử lý Video (MP4)
+      else if (ext === '.mp4') {
         manifest[folder].videos.push({
           name: file,
           src: `/assets/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`

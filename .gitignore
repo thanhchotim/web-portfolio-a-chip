@@ -23,5 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Raw uncompressed source assets (large media > 100MB; web-ready assets are in public/assets_opt)
-public/assets/*/
+# Raw uncompressed source images in public/assets (already optimized in public/assets_opt)
+public/assets/*/*
+!public/assets/*/*.mp4
+!public/assets/*/*.gif
