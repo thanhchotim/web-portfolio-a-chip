@@ -93,9 +93,14 @@
           <span class="direct-label">PRIMARY DISPATCH:</span>
           <div class="email-copy-row">
             <a href="mailto:hoanglong9975@gmail.com" class="direct-email" id="email-link">hoanglong9975@gmail.com</a>
-            <button id="btn-copy-email" class="btn-copy-action" type="button" title="Copy Email to Clipboard">
-              [COPY ADDRESS]
-            </button>
+            <div class="email-actions-group">
+              <button id="btn-copy-email" class="btn-copy-action" type="button" title="Copy Email to Clipboard">
+                [COPY ADDRESS]
+              </button>
+              <a href="/HoangLam_CV.pdf" target="_blank" rel="noopener noreferrer" class="btn-copy-action btn-cv-drawer-action" id="btn-drawer-cv" title="Mở & Tải CV Hoàng Lâm (PDF)">
+                [CV (PDF) ↗]
+              </a>
+            </div>
           </div>
         </div>
 
@@ -122,6 +127,7 @@
           <div class="socials-links-row">
             <a href="https://www.instagram.com/ttenlam/" target="_blank" rel="noopener noreferrer" class="social-wire-link">[INSTAGRAM ↗]</a>
             <a href="https://www.behance.net/lamnguyen233" target="_blank" rel="noopener noreferrer" class="social-wire-link">[BEHANCE ↗]</a>
+            <a href="/HoangLam_CV.pdf" target="_blank" rel="noopener noreferrer" class="social-wire-link" id="link-drawer-social-cv">[CV (PDF) ↗]</a>
           </div>
         </div>
       </div>
@@ -161,6 +167,18 @@
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
             </svg>
             <span class="platform-btn-text">EMAIL</span>
+          </a>
+
+          <!-- CV (DOWNLOAD & VIEW) -->
+          <a href="/HoangLam_CV.pdf" target="_blank" rel="noopener noreferrer" class="platform-btn platform-btn-cv" id="btn-footer-cv" data-platform="CV" title="Xem và tải CV Hoàng Lâm (PDF)" aria-label="CV">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span class="platform-btn-text">CV</span>
           </a>
         </nav>
       </div>

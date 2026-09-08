@@ -12,6 +12,7 @@ export const siteConfig = {
     location: "HANOI, VN [GMT+7]",
     availability: "AVAILABLE FOR COMMISSIONS — Q2/Q3 2026",
     email: "hoanglong9975@gmail.com",
+    cv: "/HoangLam_CV.pdf",
     socials: {
       vimeo: "https://vimeo.com",
       instagram: "https://www.instagram.com/ttenlam/",

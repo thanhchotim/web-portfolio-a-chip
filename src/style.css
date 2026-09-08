@@ -1627,6 +1627,13 @@ html, body {
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+}
+
+.email-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .direct-email {
@@ -1650,11 +1657,19 @@ html, body {
   padding: 5px 10px;
   cursor: pointer;
   border-radius: 0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }
 
 .btn-copy-action:hover {
   color: var(--text-primary);
   border-color: var(--text-primary);
+}
+
+.btn-cv-drawer-action {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
 }
 
 .contact-terminal-form {
@@ -1846,6 +1861,22 @@ html, body {
 }
 
 .platform-btn-email:hover svg {
+  color: #070707;
+}
+
+.platform-btn-cv {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.platform-btn-cv:hover {
+  background-color: #EDEDED;
+  color: #070707;
+  border-color: #EDEDED;
+}
+
+.platform-btn-cv:hover svg {
   color: #070707;
 }
 

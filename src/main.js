@@ -1128,6 +1128,7 @@ class StudioApp {
   initFooterPlatformLinks() {
     const platformLinks = document.querySelectorAll('.footer-platform-strip .platform-btn');
     const emailBtn = document.getElementById('btn-footer-email');
+    const cvBtn = document.getElementById('btn-footer-cv');
 
     platformLinks.forEach(link => {
       const platform = link.dataset.platform;
@@ -1144,6 +1145,35 @@ class StudioApp {
       const email = siteConfig.creator.email || 'hoanglong9975@gmail.com';
       this.copyEmailToClipboard(email);
     });
+
+    cvBtn?.addEventListener('click', (e) => {
+      this.handleCvDownloadAndOpen(e);
+    });
+  }
+
+  handleCvDownloadAndOpen(e) {
+    if (e) e.preventDefault();
+    const pdfUrl = siteConfig.creator.cv || '/HoangLam_CV.pdf';
+    const fileName = 'CV_HoangLam.pdf';
+
+    // 1. Mở xem trực tiếp trong tab mới
+    window.open(pdfUrl, '_blank');
+
+    // 2. Kích hoạt tải file PDF về máy
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.href = pdfUrl;
+    downloadAnchor.download = fileName;
+    downloadAnchor.style.display = 'none';
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+
+    setTimeout(() => {
+      if (downloadAnchor.parentNode) {
+        downloadAnchor.parentNode.removeChild(downloadAnchor);
+      }
+    }, 150);
+
+    this.showToast('ĐANG MỞ & TẢI XUỐNG CV HOÀNG LÂM (PDF)');
   }
 
   /* ---------------------------------------------------------------------------
@@ -1154,6 +1184,8 @@ class StudioApp {
     const openContactBtn = document.getElementById('btn-open-contact');
     const closeContactBtn = document.getElementById('btn-close-contact');
     const copyEmailBtn = document.getElementById('btn-copy-email');
+    const drawerCvBtn = document.getElementById('btn-drawer-cv');
+    const drawerSocialCv = document.getElementById('link-drawer-social-cv');
     const emailLink = document.getElementById('email-link');
     const contactForm = document.getElementById('contact-form');
 
@@ -1172,6 +1204,15 @@ class StudioApp {
       e.preventDefault();
       const email = siteConfig.creator.email || 'hoanglong9975@gmail.com';
       this.copyEmailToClipboard(email);
+    });
+
+    // Nhấp nút tải và mở CV trong Contact Drawer
+    drawerCvBtn?.addEventListener('click', (e) => {
+      this.handleCvDownloadAndOpen(e);
+    });
+
+    drawerSocialCv?.addEventListener('click', (e) => {
+      this.handleCvDownloadAndOpen(e);
     });
 
     // Nhấp link email trực tiếp trong Contact Drawer
