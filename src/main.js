@@ -412,6 +412,22 @@ class StudioApp {
         <div class="popup-4col-grid">
           ${makeIntroBox(p.introText)}
 
+          <!-- Video Commercial 01 HIEUTHUHAI x LONG CHÂU chiếm 4 ô -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> OFFICIAL CAMPAIGN [BỘ SƯU TẬP QUÀ ĐỘC QUYỀN HIEUTHUHAI x TIÊM CHỦNG LONG CHÂU - 01]</div>
+            <div class="responsive-video-16-9">
+              <iframe data-src="https://www.youtube.com/embed/03Nzv80xfxI?enablejsapi=1" title="BỘ SƯU TẬP QUÀ ĐỘC QUYỀN HIEUTHUHAI x TIÊM CHỦNG LONG CHÂU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+
+          <!-- Video Commercial 02 HIEUTHUHAI x LONG CHÂU chiếm 4 ô -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> OFFICIAL CAMPAIGN [BỘ SƯU TẬP QUÀ ĐỘC QUYỀN HIEUTHUHAI x TIÊM CHỦNG LONG CHÂU - 02]</div>
+            <div class="responsive-video-16-9">
+              <iframe data-src="https://www.youtube.com/embed/p9WAzt77SVA?enablejsapi=1" title="BỘ SƯU TẬP QUÀ ĐỘC QUYỀN HIEUTHUHAI x TIÊM CHỦNG LONG CHÂU | Tiêm Chủng Long Châu" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+
           <!-- 4 GIF loops lên trước -->
           <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> ANIMATED CUT SCENES & BTS LOOPS</div>
           ${p.gifs.map(g => makeGifItem(g, 'col-span-2')).join('')}
@@ -595,6 +611,14 @@ class StudioApp {
         <div class="popup-4col-grid">
           <div class="col-span-4">
             ${makeIntroBox(p.introText)}
+          </div>
+
+          <!-- Nhúng MV chính thức NO ALCOHOL chiếm 4 ô ngay phía dưới đoạn giới thiệu -->
+          <div class="col-span-4 popup-video-feature">
+            <div class="popup-section-label"><span class="dot-rec">●</span> OFFICIAL MUSIC VIDEO [HURRYKNG, Negav - No Alcohol]</div>
+            <div class="responsive-video-16-9">
+              <iframe data-src="https://www.youtube.com/embed/ub7-vBvSXRI?enablejsapi=1" title="HURRYKNG, Negav - No Alcohol (Official Music Video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+            </div>
           </div>
 
           <!-- Các GIF loop lên trước -->
