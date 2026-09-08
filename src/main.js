@@ -157,10 +157,10 @@ class StudioApp {
 
     // Helper tạo grid item GIF uncropped kèm badge pill
     const makeGifItem = (gif, spanClass = 'col-span-2') => `
-      <div class="popup-grid-item ${spanClass} gif-item" data-full-src="${gif.webpSrc}" title="Nhấp để phóng to loop">
+      <div class="popup-grid-item ${spanClass} gif-item" data-full-src="${gif.webpSrc || gif.gifSrc}" title="Nhấp để phóng to loop">
         <picture>
           <source srcset="${gif.webpSrc}" type="image/webp" />
-          <img src="${gif.gifSrc}" alt="${gif.name}" class="loop-media-el" loading="lazy" decoding="async" />
+          <img src="${gif.webpSrc || gif.gifSrc}" alt="${gif.name}" class="loop-media-el" loading="lazy" decoding="async" />
         </picture>
         <span class="item-badge-pill">● LOOP</span>
         <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
@@ -186,13 +186,11 @@ class StudioApp {
             </div>
           </div>
 
-          <!-- Video Teaser Clip MP4 -->
+          <!-- Video Teaser Clip (YouTube Embed) -->
           <div class="col-span-4 popup-video-feature">
             <div class="popup-section-label"><span class="dot-rec">●</span> OFFICIAL TEASER CLIP [YEON 연]</div>
             <div class="responsive-video-16-9">
-              <video controls playsinline loop muted preload="none">
-                <source data-src="/assets/yeon/teaser.mp4" type="video/mp4" />
-              </video>
+              <iframe data-src="https://www.youtube.com/embed/gcAJK9RjQeY?enablejsapi=1" title="Teaser- Yeon" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
             </div>
           </div>
 
@@ -214,10 +212,10 @@ class StudioApp {
 
           <!-- GIF loop to lên chiếm 4 ô -->
           ${loopGif ? `
-            <div class="hero-4col-item popup-grid-item col-span-4 gif-item" data-full-src="${loopGif.webpSrc}">
+            <div class="hero-4col-item popup-grid-item col-span-4 gif-item" data-full-src="${loopGif.webpSrc || loopGif.gifSrc}">
               <picture>
                 <source srcset="${loopGif.webpSrc}" type="image/webp" />
-                <img src="${loopGif.gifSrc}" alt="${loopGif.name}" class="loop-media-el" loading="lazy" />
+                <img src="${loopGif.webpSrc || loopGif.gifSrc}" alt="${loopGif.name}" class="loop-media-el" loading="lazy" />
               </picture>
               <span class="item-badge-pill">● EXCLUSIVE LOOP SCENE</span>
               <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
@@ -253,10 +251,10 @@ class StudioApp {
 
           <!-- GIF loop cut scene để lên phía dưới MV chính thức và trên phần ảnh -->
           ${cutSceneGif ? `
-            <div class="hero-4col-item popup-grid-item col-span-4 gif-item" data-full-src="${cutSceneGif.webpSrc}">
+            <div class="hero-4col-item popup-grid-item col-span-4 gif-item" data-full-src="${cutSceneGif.webpSrc || cutSceneGif.gifSrc}">
               <picture>
                 <source srcset="${cutSceneGif.webpSrc}" type="image/webp" />
-                <img src="${cutSceneGif.gifSrc}" alt="${cutSceneGif.name}" class="loop-media-el" loading="lazy" />
+                <img src="${cutSceneGif.webpSrc || cutSceneGif.gifSrc}" alt="${cutSceneGif.name}" class="loop-media-el" loading="lazy" />
               </picture>
               <span class="item-badge-pill">● CUT SCENE LOOP</span>
               <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
@@ -270,10 +268,10 @@ class StudioApp {
           <!-- GIF loop BTS để ở DƯỚI CÙNG -->
           ${btsGif ? `
             <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> BTS ON-SET LOOP</div>
-            <div class="hero-4col-item popup-grid-item col-span-4 gif-item" data-full-src="${btsGif.webpSrc}">
+            <div class="hero-4col-item popup-grid-item col-span-4 gif-item" data-full-src="${btsGif.webpSrc || btsGif.gifSrc}">
               <picture>
                 <source srcset="${btsGif.webpSrc}" type="image/webp" />
-                <img src="${btsGif.gifSrc}" alt="${btsGif.name}" class="loop-media-el" loading="lazy" />
+                <img src="${btsGif.webpSrc || btsGif.gifSrc}" alt="${btsGif.name}" class="loop-media-el" loading="lazy" />
               </picture>
               <span class="item-badge-pill">● BTS LOOP</span>
               <div class="item-zoom-hover"><span>⛶ PHÓNG TO</span></div>
@@ -296,9 +294,7 @@ class StudioApp {
           <div class="col-span-4 popup-video-feature">
             <div class="popup-section-label"><span class="dot-rec">●</span> [01 // VIDEO SHOWCASE ROBOT & LAB]</div>
             <div class="responsive-video-16-9">
-              <video controls playsinline loop muted preload="none" data-autoplay="true">
-                <source data-src="/assets/BLENDER/showcase%20robotnlab%20vid.mp4" type="video/mp4" />
-              </video>
+              <iframe data-src="https://www.youtube.com/embed/XAGAUDqIIwE?enablejsapi=1" title="Showcase Robot Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
             </div>
           </div>
 
@@ -306,36 +302,26 @@ class StudioApp {
           <div class="col-span-4 popup-video-feature">
             <div class="popup-section-label"><span class="dot-rec">●</span> [02 // 3D ANIMATION CLIP]</div>
             <div class="responsive-video-16-9">
-              <video controls playsinline loop muted preload="none">
-                <source data-src="/assets/BLENDER/clip%20anim%203D.mp4" type="video/mp4" />
-              </video>
+              <iframe data-src="https://www.youtube.com/embed/IgKtUs8jymY?enablejsapi=1" title="Backroom Rule NO.1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
             </div>
           </div>
 
           <!-- Các Cut Scene để 1 ô như bình thường (4 video cut scene xếp 1 hàng 4 ô) -->
           <div class="col-span-4 popup-section-label"><span class="dot-rec">●</span> ANIMATION CUT SCENES</div>
           <div class="popup-grid-item col-span-1 cutscene-video-box">
-            <video controls playsinline loop muted preload="none">
-              <source data-src="/assets/BLENDER/scene%201.mp4" type="video/mp4" />
-            </video>
+            <iframe data-src="https://www.youtube.com/embed/BB_kma-dvnA?enablejsapi=1" title="scene 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
             <span class="item-badge-pill">SCENE 1</span>
           </div>
           <div class="popup-grid-item col-span-1 cutscene-video-box">
-            <video controls playsinline loop muted preload="none">
-              <source data-src="/assets/BLENDER/scene%202.mp4" type="video/mp4" />
-            </video>
+            <iframe data-src="https://www.youtube.com/embed/jRNmXGCwUPI?enablejsapi=1" title="scene 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
             <span class="item-badge-pill">SCENE 2</span>
           </div>
           <div class="popup-grid-item col-span-1 cutscene-video-box">
-            <video controls playsinline loop muted preload="none">
-              <source data-src="/assets/BLENDER/scene%203.mp4" type="video/mp4" />
-            </video>
+            <iframe data-src="https://www.youtube.com/embed/6TTl0D9HqyQ?enablejsapi=1" title="scene 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
             <span class="item-badge-pill">SCENE 3</span>
           </div>
           <div class="popup-grid-item col-span-1 cutscene-video-box">
-            <video controls playsinline loop muted preload="none">
-              <source data-src="/assets/BLENDER/scene%204.mp4" type="video/mp4" />
-            </video>
+            <iframe data-src="https://www.youtube.com/embed/oBxai85ekJ4?enablejsapi=1" title="scene 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
             <span class="item-badge-pill">SCENE 4</span>
           </div>
 
@@ -360,9 +346,7 @@ class StudioApp {
           <div class="col-span-4 popup-video-feature">
             <div class="popup-section-label"><span class="dot-rec">●</span> [01 // MOOD FILM - THEEND]</div>
             <div class="responsive-video-16-9">
-              <video poster="/assets_opt/THEEND/thumb_400_pic6.webp" controls loop muted playsinline preload="none" data-autoplay="true">
-                <source data-src="/assets/THEEND/mood%20film.mp4" type="video/mp4" />
-              </video>
+              <iframe data-src="https://www.youtube.com/embed/v7DXsi1BqEU?enablejsapi=1" title="The End Of The Beggining - Fasshion mood film" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
             </div>
           </div>
 
@@ -503,9 +487,7 @@ class StudioApp {
           <div class="col-span-4 popup-video-feature">
             <div class="popup-section-label"><span class="dot-rec">●</span> MV REMAKE [FE!N - TRAVIS SCOTT]</div>
             <div class="responsive-video-16-9">
-              <video poster="/assets_opt/FEIN/thumb_400_travis.webp" controls loop muted playsinline preload="none" data-autoplay="true">
-                <source data-src="/assets/FEIN/fein%20final.mp4" type="video/mp4" />
-              </video>
+              <iframe data-src="https://www.youtube.com/embed/nNZQQpEvqwM?enablejsapi=1" title="Fein - Travis Scott ( unofficial lyrics video - fanmade )" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
             </div>
           </div>
 
@@ -1009,15 +991,36 @@ class StudioApp {
   activateWindowMedia(item) {
     if (!item) return;
 
-    // 1. Kích hoạt YouTube Iframe khi mở popup
-    item.querySelectorAll('iframe[data-src]').forEach(iframe => {
+    const windowContent = item.querySelector('.window-content');
+
+    // 1. Kích hoạt YouTube Iframe khi mở popup (Hero iframe nạp ngay, Cutscene iframe nạp khi cuộn đến)
+    const iframes = item.querySelectorAll('iframe[data-src]');
+    const loadIframeEl = (iframe) => {
       if (!iframe.getAttribute('src') && iframe.dataset.src) {
         iframe.src = iframe.dataset.src;
+      }
+    };
+
+    iframes.forEach(iframe => {
+      if (iframe.closest('.popup-video-feature') || !('IntersectionObserver' in window)) {
+        loadIframeEl(iframe);
+      } else {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              loadIframeEl(iframe);
+              obs.unobserve(iframe);
+            }
+          });
+        }, {
+          root: windowContent,
+          rootMargin: '250px'
+        });
+        observer.observe(iframe);
       }
     });
 
     // 2. Kích hoạt Videos theo viewport của popup window-content
-    const windowContent = item.querySelector('.window-content');
     const videos = item.querySelectorAll('video');
 
     const loadVideoEl = (video) => {
@@ -1067,6 +1070,13 @@ class StudioApp {
     item.querySelectorAll('video').forEach(v => {
       try {
         v.pause();
+      } catch {
+        // Safe ignore
+      }
+    });
+    item.querySelectorAll('iframe').forEach(iframe => {
+      try {
+        iframe.contentWindow?.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
       } catch {
         // Safe ignore
       }

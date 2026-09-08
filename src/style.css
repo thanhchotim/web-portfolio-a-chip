@@ -2164,12 +2164,17 @@ html, body {
   border-radius: 3px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  aspect-ratio: 16 / 9;
 }
 
-.cutscene-video-box video {
+.cutscene-video-box video,
+.cutscene-video-box iframe {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  border: 0;
+  object-fit: cover;
 }
 
 /* PANORAMA STYLES FOR GẠCH ĐÔNG DƯƠNG */

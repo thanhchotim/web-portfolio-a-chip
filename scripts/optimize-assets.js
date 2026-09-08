@@ -13,9 +13,9 @@ if (!fs.existsSync(OPT_DIR)) {
 const THUMB_MAPPING = {
   'BLENDER': 'logo.jpg',
   'FEIN': 'travis.jpg',
-  'GẠCH ĐÔNG DƯƠNG': 'pic3.jpg',
+  'GẠCH ĐÔNG DƯƠNG': 'pic 3.jpg',
   'mauvaart': 'tự họa-01-04.jpg',
-  'NO ALCOHOL': 'thumbnail.png', // user ghi thumbnail.jpg, file gốc là thumbnail.png
+  'NO ALCOHOL': 'thumbnail.png',
   'TH TRUE FOOD': 'thumb TH.png',
   'THEEND': 'pic6.jpg',
   'TME': 'pic9.jpg',
@@ -68,8 +68,8 @@ async function optimize() {
         try {
           console.log(`  [GIF -> WebP] ${file} (${(stat.size / 1024 / 1024).toFixed(2)} MB)...`);
           await sharp(srcFile, { animated: true, limitInputPixels: false })
-            .resize({ width: 720, fit: 'inside', withoutEnlargement: true })
-            .webp({ effort: 3, quality: 72, loop: 0 })
+            .resize({ width: 640, fit: 'inside', withoutEnlargement: true })
+            .webp({ effort: 5, quality: 68, loop: 0 })
             .toFile(destFile);
           
           const optStat = fs.statSync(destFile);
@@ -79,14 +79,14 @@ async function optimize() {
           manifest[folder].gifs.push({
             name: file,
             webpSrc: `/assets_opt/${encodeURIComponent(folder)}/${encodeURIComponent(outName)}`,
-            gifSrc: `/assets/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`
+            gifSrc: `/assets_opt/${encodeURIComponent(folder)}/${encodeURIComponent(outName)}`
           });
         } catch (err) {
           console.error(`    Lỗi nén GIF ${file}:`, err.message);
           manifest[folder].gifs.push({
             name: file,
-            webpSrc: `/assets/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`,
-            gifSrc: `/assets/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`
+            webpSrc: `/assets_opt/${encodeURIComponent(folder)}/${encodeURIComponent(outName)}`,
+            gifSrc: `/assets_opt/${encodeURIComponent(folder)}/${encodeURIComponent(outName)}`
           });
         }
       }
@@ -107,8 +107,8 @@ async function optimize() {
         try {
           await sharp(srcFile)
             .rotate()
-            .resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true })
-            .webp({ quality: 82, effort: 4 })
+            .resize({ width: 1400, height: 1400, fit: 'inside', withoutEnlargement: true })
+            .webp({ quality: 78, effort: 5 })
             .toFile(destFile);
 
           const optStat = fs.statSync(destFile);
@@ -117,8 +117,8 @@ async function optimize() {
           const itemData = {
             name: file,
             src: `/assets_opt/${encodeURIComponent(folder)}/${encodeURIComponent(outName)}`,
-            originalSrc: `/assets/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`,
-            width: 1600
+            originalSrc: `/assets_opt/${encodeURIComponent(folder)}/${encodeURIComponent(outName)}`,
+            width: 1400
           };
           manifest[folder].images.push(itemData);
 
@@ -128,7 +128,7 @@ async function optimize() {
             const thumbFile = path.join(destFolder, thumbName);
             await sharp(srcFile)
               .resize({ width: 400, height: 400, fit: 'inside', withoutEnlargement: true })
-              .webp({ quality: 80, effort: 3 })
+              .webp({ quality: 78, effort: 5 })
               .toFile(thumbFile);
             
             manifest[folder].thumbnail = `/assets_opt/${encodeURIComponent(folder)}/${encodeURIComponent(thumbName)}`;
@@ -138,8 +138,8 @@ async function optimize() {
           console.error(`    Lỗi nén ảnh ${file}:`, err.message);
           manifest[folder].images.push({
             name: file,
-            src: `/assets/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`,
-            originalSrc: `/assets/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`
+            src: `/assets_opt/${encodeURIComponent(folder)}/${encodeURIComponent(outName)}`,
+            originalSrc: `/assets_opt/${encodeURIComponent(folder)}/${encodeURIComponent(outName)}`
           });
         }
       }

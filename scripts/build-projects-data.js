@@ -44,16 +44,16 @@ const projects = folderOrder.map(item => {
         return {
           name: 'BTS 2.jpg',
           src: '/assets_opt/NO%20ALCOHOL/BTS%202.webp',
-          originalSrc: '/assets/NO%20ALCOHOL/BTS%202.jpg',
-          width: 1600
+          originalSrc: '/assets_opt/NO%20ALCOHOL/BTS%202.webp',
+          width: 1400
         };
       }
       if (img.name.includes('BTS 3')) {
         return {
           name: 'BTS 3.jpg',
           src: '/assets_opt/NO%20ALCOHOL/BTS%203.webp',
-          originalSrc: '/assets/NO%20ALCOHOL/BTS%203.jpg',
-          width: 1600
+          originalSrc: '/assets_opt/NO%20ALCOHOL/BTS%203.webp',
+          width: 1400
         };
       }
       return img;
@@ -65,8 +65,8 @@ const projects = folderOrder.map(item => {
       m.images.unshift({
         name: 'BTS 2.jpg',
         src: '/assets_opt/NO%20ALCOHOL/BTS%202.webp',
-        originalSrc: '/assets/NO%20ALCOHOL/BTS%202.jpg',
-        width: 1600
+        originalSrc: '/assets_opt/NO%20ALCOHOL/BTS%202.webp',
+        width: 1400
       });
     }
     const hasBts3 = m.images.some(img => img.name.includes('BTS 3'));
@@ -74,8 +74,8 @@ const projects = folderOrder.map(item => {
       m.images.unshift({
         name: 'BTS 3.jpg',
         src: '/assets_opt/NO%20ALCOHOL/BTS%203.webp',
-        originalSrc: '/assets/NO%20ALCOHOL/BTS%203.jpg',
-        width: 1600
+        originalSrc: '/assets_opt/NO%20ALCOHOL/BTS%203.webp',
+        width: 1400
       });
     }
   }
@@ -87,16 +87,16 @@ const projects = folderOrder.map(item => {
         return {
           name: 'BTS 1',
           src: '/assets_opt/LONG%20CH%C3%82U/BTS%201.webp',
-          originalSrc: '/assets/LONG%20CH%C3%82U/BTS%201',
-          width: 1600
+          originalSrc: '/assets_opt/LONG%20CH%C3%82U/BTS%201.webp',
+          width: 1400
         };
       }
       if (img.name === 'BTS 2' || img.name === 'BTS 2.heic') {
         return {
           name: 'BTS 2',
           src: '/assets_opt/LONG%20CH%C3%82U/BTS%202.webp',
-          originalSrc: '/assets/LONG%20CH%C3%82U/BTS%202',
-          width: 1600
+          originalSrc: '/assets_opt/LONG%20CH%C3%82U/BTS%202.webp',
+          width: 1400
         };
       }
       return img;
