@@ -1170,34 +1170,13 @@ class StudioApp {
       this.copyEmailToClipboard(email);
     });
 
-    cvBtn?.addEventListener('click', (e) => {
-      this.handleCvDownloadAndOpen(e);
+    cvBtn?.addEventListener('click', () => {
+      this.handleCvOpen();
     });
   }
 
-  handleCvDownloadAndOpen(e) {
-    if (e) e.preventDefault();
-    const pdfUrl = siteConfig.creator.cv || '/HoangLam_CV.pdf';
-    const fileName = 'CV_HoangLam.pdf';
-
-    // 1. Mở xem trực tiếp trong tab mới
-    window.open(pdfUrl, '_blank');
-
-    // 2. Kích hoạt tải file PDF về máy
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.href = pdfUrl;
-    downloadAnchor.download = fileName;
-    downloadAnchor.style.display = 'none';
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-
-    setTimeout(() => {
-      if (downloadAnchor.parentNode) {
-        downloadAnchor.parentNode.removeChild(downloadAnchor);
-      }
-    }, 150);
-
-    this.showToast('ĐANG MỞ & TẢI XUỐNG CV HOÀNG LÂM (PDF)');
+  handleCvOpen() {
+    this.showToast('ĐANG MỞ CURRICULUM VITAE (CV)...');
   }
 
   /* ---------------------------------------------------------------------------
@@ -1230,13 +1209,13 @@ class StudioApp {
       this.copyEmailToClipboard(email);
     });
 
-    // Nhấp nút tải và mở CV trong Contact Drawer
-    drawerCvBtn?.addEventListener('click', (e) => {
-      this.handleCvDownloadAndOpen(e);
+    // Nhấp nút mở CV trong Contact Drawer
+    drawerCvBtn?.addEventListener('click', () => {
+      this.handleCvOpen();
     });
 
-    drawerSocialCv?.addEventListener('click', (e) => {
-      this.handleCvDownloadAndOpen(e);
+    drawerSocialCv?.addEventListener('click', () => {
+      this.handleCvOpen();
     });
 
     // Nhấp link email trực tiếp trong Contact Drawer
