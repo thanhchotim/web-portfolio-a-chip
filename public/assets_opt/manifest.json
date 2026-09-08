@@ -627,9 +627,9 @@
         "gifSrc": "/assets_opt/TME/BTS.webp"
       },
       {
-        "name": "cut scene.gif",
-        "webpSrc": "/assets_opt/TME/cut%20scene.webp",
-        "gifSrc": "/assets_opt/TME/cut%20scene.webp"
+        "name": "CUT SCENES.gif",
+        "webpSrc": "/assets_opt/TME/CUT%20SCENES.webp",
+        "gifSrc": "/assets_opt/TME/CUT%20SCENES.webp"
       }
     ],
     "videos": [],
